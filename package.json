@@ -11,6 +11,8 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "enzyme": "^2.8.2",
+    "react-addons-test-utils": "15.4.2",
     "react-scripts": "1.0.6"
   },
   "scripts": {
