@@ -2,7 +2,7 @@ import React from 'react';
 import { branch, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 
-const hasComments = ({ comments }) => comments;
+const hasComments = ({ comments }) => (comments.length ? true : false);
 const List = ({ children }) => (
   <ul style={{ listStyleType: 'none' }} className="comments-list">
     {children}

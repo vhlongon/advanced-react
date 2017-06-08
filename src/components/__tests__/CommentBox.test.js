@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, render, mount } from 'enzyme';
-import CommentBoxWithState, { CommentBox } from '../CommentBox';
+import { CommentBox, CommentBoxWithState } from '../CommentBox';
 
 describe('CommentBox', () => {
   let component;
@@ -19,26 +19,38 @@ describe('CommentBox', () => {
   });
 
   it('has a text area', () => {
-    expect(component.find('textarea').length).toBeGreaterThan(0);
+    expect(component.find('textarea').length).toBe(1);
   });
 
   it('has a button', () => {
-    expect(component.find('button').length).toBeGreaterThan(0);
+    expect(component.find('button').length).toBe(1);
   });
 
   describe('entering some text', () => {
-    const commment = 'New Commment';
-    const wrapper = mount(<CommentBoxWithState />);
+    const comment = 'New comment';
+    const mockSaveComment = jest.fn();
+    const wrapper = mount(
+      <CommentBoxWithState saveComment={mockSaveComment} />
+    );
     const textarea = wrapper.find('textarea');
+    const form = wrapper.find('form');
 
     it('shows text that is entered', () => {
-      textarea.simulate('change', { target: { value: commment } });
-      expect(textarea.get(0).value).toEqual(commment);
+      textarea.simulate('change', { target: { value: comment } });
+      expect(textarea.get(0).value).toEqual(comment);
     });
 
-    it('when submitted clears the input', () => {
-      wrapper.simulate('submit');
-      expect(textarea.get(0).value).toEqual('');
+    describe('on submit', () => {
+      beforeEach(() => {
+        form.simulate('submit');
+      });
+      it('clears the input', () => {
+        expect(textarea.get(0).value).toEqual('');
+      });
+
+      it('saves the comment', () => {
+        expect(mockSaveComment).toBeCalledWith(comment);
+      });
     });
   });
 });
