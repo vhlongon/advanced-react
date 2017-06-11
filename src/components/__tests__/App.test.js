@@ -6,7 +6,7 @@ import Home from '../Home';
 import Resources from '../Resources';
 import Signin from '../Signin';
 import NotFound from '../NotFound';
-import { shallow, render } from 'enzyme';
+import { shallow } from 'enzyme';
 
 describe('App', () => {
   it('should always render a Header', () => {
