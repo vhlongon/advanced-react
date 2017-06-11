@@ -15,7 +15,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App title="Advanced React HOC" />
+    <App title="Advanced React and Redux - HOC" />
   </Provider>,
   document.getElementById('root')
 );

@@ -1,16 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './Header';
-import './App.css';
+import Home from './Home';
+import Resources from './Resources';
+import Signin from './Signin';
+import NotFound from './NotFound';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <h1>{this.props.title}</h1>
-      </div>
-    );
-  }
-}
+const App = ({ title }) => {
+  return (
+    <div className="App">
+      <h1>{title}</h1>
+      <Router>
+        <div>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/resources" component={Resources} />
+            <Route path="/signin" component={Signin} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </Router>
+    </div>
+  );
+};
 
 export default App;
