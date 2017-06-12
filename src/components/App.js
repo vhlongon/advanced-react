@@ -1,28 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './Header';
-import Home from './Home';
-import Resources from './Resources';
-import Signin from './Signin';
-import NotFound from './NotFound';
+import Routes from './Routes';
+import { connect } from 'react-redux';
+import authenticate from '../actions/authenticate';
 
-const App = ({ title }) => {
+export const App = ({ title, authenticated }) => {
   return (
-    <div className="App">
-      <h1>{title}</h1>
-      <Router>
-        <div>
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/resources" component={Resources} />
-            <Route path="/signin" component={Signin} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </Router>
+    <div className="app">
+      <h1 className="app__title">{title}</h1>
+      <i className="app__status">You are: {authenticated ? 'Logged-in' : 'Logged-out'}</i>
+      <Routes isAuthenticate={authenticated} />
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = ({ authenticated }) => ({ authenticated });
+
+export default connect(mapStateToProps, { authenticate })(App);

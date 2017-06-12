@@ -3,7 +3,7 @@ import React from 'react';
 const Signin = () => {
   return (
     <div>
-      Sign in
+      Sign in to view the resources
     </div>
   );
 };

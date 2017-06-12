@@ -1,18 +1,10 @@
 import React from 'react';
-import { compose, withHandlers } from 'recompose';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import authenticate from '../actions/authenticate';
+import AuthButton from './AuthButton';
 
-const enhance = compose(
-  withHandlers({
-    // toggle the authentication global state
-    onClick: ({ authenticate, authenticated }) => e => {
-      authenticate(!authenticated);
-    }
-  })
-);
-export const Header = enhance(({ authenticated, authenticate, onClick }) => (
+export const Header = ({ authenticated, authenticate }) => (
   <div>
     <nav className="header__nav">
       <ul className="header__list">
@@ -23,14 +15,15 @@ export const Header = enhance(({ authenticated, authenticate, onClick }) => (
           <Link to="/resources">Resources</Link>
         </li>
         <li className="header__item">
-          <button onClick={onClick}>
-            {authenticated ? 'Sign out' : 'Sign in'}
-          </button>
+          <AuthButton
+            isAuthenticated={authenticated}
+            authenticate={authenticate}
+          />
         </li>
       </ul>
     </nav>
   </div>
-));
+);
 
 const mapStateToProps = ({ authenticated }) => ({ authenticated });
 
