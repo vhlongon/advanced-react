@@ -6,6 +6,7 @@ import authenticate from '../actions/authenticate';
 
 const enhance = compose(
   withHandlers({
+    // toggle the authentication global state
     onClick: ({ authenticate, authenticated }) => e => {
       authenticate(!authenticated);
     }
