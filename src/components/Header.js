@@ -1,26 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { compose, withHandlers } from 'recompose';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import authenticate from '../actions/authenticate';
 
-class Header extends Component {
-  render() {
-    return (
-      <div>
-        <nav className="header__nav">
-          <ul className="header__list">
-            <li className="header__item">
-              <Link to="/">Home</Link>
-            </li>
-            <li className="header__item">
-              <Link to="/resources">Resources</Link>
-            </li>
-            <li className="header__item">
-              <Link to="/signin">Sign in</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    );
-  }
-}
+const enhance = compose(
+  withHandlers({
+    onClick: ({ authenticate, authenticated }) => e => {
+      authenticate(!authenticated);
+    }
+  })
+);
+export const Header = enhance(({ authenticated, authenticate, onClick }) => (
+  <div>
+    <nav className="header__nav">
+      <ul className="header__list">
+        <li className="header__item">
+          <Link to="/">Home</Link>
+        </li>
+        <li className="header__item">
+          <Link to="/resources">Resources</Link>
+        </li>
+        <li className="header__item">
+          <button onClick={onClick}>
+            {authenticated ? 'Sign out' : 'Sign in'}
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+));
 
-export default Header;
+const mapStateToProps = ({ authenticated }) => ({ authenticated });
+
+export default connect(mapStateToProps, { authenticate })(Header);

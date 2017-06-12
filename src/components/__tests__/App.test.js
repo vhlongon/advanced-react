@@ -11,7 +11,7 @@ import { shallow } from 'enzyme';
 describe('App', () => {
   it('should always render a Header', () => {
     const wrapper = shallow(<App />);
-    expect(wrapper.find('Header').length).toBe(1);
+    expect(wrapper.find(Header).length).toBe(1);
   });
   describe('Router', () => {
     it('should render the Router', () => {

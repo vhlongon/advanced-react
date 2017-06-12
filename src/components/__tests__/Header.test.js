@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../Header';
+import { Header } from '../Header';
 import { Link } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
@@ -21,9 +21,6 @@ describe('Header', () => {
     });
     it('should render a Link to resources', () => {
       expect(Links[1].prop('to')).toBe('/resources');
-    });
-    it('should render a Link to signin', () => {
-      expect(Links[2].prop('to')).toBe('/signin');
     });
   });
 });
