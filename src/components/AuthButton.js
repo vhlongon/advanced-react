@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-const AuthButton = withRouter(({ history, isAuthenticated, authenticate }) => (
+export const Button = ({ history, isAuthenticated, authenticate }) => (
   <button
     onClick={() => {
       authenticate(
@@ -12,6 +12,6 @@ const AuthButton = withRouter(({ history, isAuthenticated, authenticate }) => (
   >
     {isAuthenticated ? 'Sign out' : 'Sign in'}
   </button>
-));
+);
 
-export default AuthButton;
+export default withRouter(Button);

@@ -2,47 +2,38 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom';
 import Header from './Header';
 import Home from './Home';
 import Resources from './Resources';
 import Signin from './Signin';
 import NotFound from './NotFound';
+import PrivateRoute from './PrivateRoute';
 
-const PrivateRoute = ({ component: Component, isAuthenticated }) => (
-  <Route
-    render={props =>
-      (isAuthenticated
-        ? <Component {...props} />
-        : <Redirect
-            to={{
-              pathname: '/signin',
-              origin: props.location.pathname
-            }}
-          />)}
-  />
+export const paths = {
+  signin: '/signin',
+  resources: '/resources',
+  home: '/'
+}
+
+export const Routes = ({ isAuthenticate }) => (
+  <Router>
+    <div>
+      <Header />
+      <Switch>
+        <Route exact path={paths.home} component={Home} />
+        <Route path={paths.signin} component={Signin} />
+        <PrivateRoute
+          path={paths.resources}
+          redirectPath={paths.signin}
+          isAuthenticated={isAuthenticate}
+          component={Resources}
+        />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
+  </Router>
 );
-
-export const Routes = ({ isAuthenticate }) => {
-  return (
-    <Router>
-      <div>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <PrivateRoute
-            path="/resources"
-            component={Resources}
-            isAuthenticated={isAuthenticate}
-          />
-          <Route path="/signin" component={Signin} />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    </Router>
-  );
-};
 
 export default Routes;

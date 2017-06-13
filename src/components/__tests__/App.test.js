@@ -1,11 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { App } from '../App';
 import { Routes } from '../Routes';
-import Home from '../Home';
-import Resources from '../Resources';
-import Signin from '../Signin';
-import NotFound from '../NotFound';
 import { shallow } from 'enzyme';
 
 describe('App', () => {

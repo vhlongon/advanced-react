@@ -1,11 +1,13 @@
 import React from 'react';
 
-const Signin = () => {
-  return (
-    <div>
-      Sign in to view the resources
-    </div>
-  );
-};
+const Signin = ({ location: { state } }) => (
+  <div>
+    <p>
+      {state
+        ? <small><i>{state.message}</i></small>
+        : 'Sign in section'}
+    </p>
+  </div>
+);
 
 export default Signin;
