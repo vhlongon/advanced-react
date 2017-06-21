@@ -1,18 +1,14 @@
 import React from 'react';
-import Routes from './Routes';
-import { connect } from 'react-redux';
-import authenticate from '../actions/authenticate';
+import UserList from './UserList';
 
-export const App = ({ title, authenticated }) => {
+export const App = ({ title }) => {
   return (
     <div className="app">
       <h1 className="app__title">{title}</h1>
-      <i className="app__status">You are: {authenticated ? 'Logged-in' : 'Logged-out'}</i>
-      <Routes isAuthenticate={authenticated} />
+      <UserList />
     </div>
   );
 };
 
-const mapStateToProps = ({ authenticated }) => ({ authenticated });
 
-export default connect(mapStateToProps, { authenticate })(App);
+export default App;
