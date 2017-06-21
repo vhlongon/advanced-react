@@ -10,13 +10,16 @@ const enhance = compose(
       this.props.fetchUsers();
     }
   })
-)
+);
 export const UserList = ({ users }) => (
   <ul className="userlist">
-    {users.map((user, i) => <User key={i} {...user} />)}
+    {users &&
+      users.map(({ name, email, company, id }) => (
+        <User key={id} name={name} company={company.name} email={email} />
+      ))}
   </ul>
 );
 
 const mapStateToProps = ({ users }) => ({ users });
 
-export default connect(mapStateToProps, {fetchUsers})(enhance(UserList));
+export default connect(mapStateToProps, { fetchUsers })(enhance(UserList));

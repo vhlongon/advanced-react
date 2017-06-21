@@ -4,7 +4,7 @@ export default (state = [], action) => {
   const { type } = action;
   switch (type) {
     case FETCH_USERS:
-      return [...state, ...action.payload];
+      return [...state, ...action.payload.data];
     default:
       return state;
   }

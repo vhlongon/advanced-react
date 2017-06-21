@@ -8,10 +8,15 @@ describe('UserList', () => {
     const wrapper = shallow(<UserList users={[]} />);
     expect(wrapper.is('ul.userlist')).toBe(true);
   });
-  
+
   it('should the correct number of users', () => {
-    const wrapper = shallow(<UserList users={['Hej', 'Ho', 'Lets go']} />);
-    expect(wrapper.find(User).length).toBe(3);
+    const users = [
+      { name: 'Deedee', company: 'Ramones', email: 'deedee@ramones.com', id: 1 },
+      { name: 'Joey', company: 'Ramones', email: 'joey@ramones.com', id: 2 },
+      { name: 'Jhonny', company: 'Ramones', email: 'jhonny@ramones.com', id: 3 },
+      { name: 'Marc', company: 'Ramones', email: 'marc@ramones.com', id: 4 }
+    ];
+    const wrapper = shallow(<UserList users={users} />);
+    expect(wrapper.find(User).length).toBe(4);
   });
-  
 });
