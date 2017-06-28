@@ -6,6 +6,11 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
 const router = require('./router');
+const mongoose = require('mongoose');
+
+// DB setup
+// this will create a database inside the mongo with the name 'auth'
+mongoose.connect('mongodb://localhost:auth/auth');
 
 // App setup
 // morgan is a logging middleware to ouput each request from the browser in the terminal
