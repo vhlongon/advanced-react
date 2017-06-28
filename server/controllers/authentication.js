@@ -3,8 +3,10 @@ const User = require('../models/user');
 exports.signup = (req, res, next) => {
   const { body: { email, password } } = req;
 
-  if(!email || !password) {
-    return res.status(422).send({error: 'You must provide email and password'})
+  if (!email || !password) {
+    return res
+      .status(422)
+      .send({ error: 'You must provide email and password' });
   }
   // check if a user with the given email exists
   User.findOne({ email }).exec().then(
@@ -16,7 +18,7 @@ exports.signup = (req, res, next) => {
       // if a user with email does NOT exist, create and save user record
       const user = new User({ email, password });
       // respond to request indicating the user was created
-      user.save().then(res.json(user)).catch(err => next(err));
+      user.save().then(() => res.json({ success: true }));
     },
     err => {
       next(err);
