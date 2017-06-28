@@ -8,6 +8,9 @@ const app = express();
 const router = require('./router');
 const mongoose = require('mongoose');
 
+// Use native promises instead of callbacks for mongon
+mongoose.Promise = global.Promise;
+
 // DB setup
 // this will create a database inside the mongo with the name 'auth'
 mongoose.connect('mongodb://localhost:auth/auth');
