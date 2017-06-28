@@ -8,5 +8,4 @@ export const App = ({ title }) => {
   );
 };
 
-
 export default App;
