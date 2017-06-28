@@ -1,0 +1,1 @@
+// main starter point of the application on the server side
