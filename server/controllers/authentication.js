@@ -1,4 +1,13 @@
+const jwt = require('jwt-simple');
 const User = require('../models/user');
+const config = require('../config');
+
+// 'sub' is short for 'subject' and it is a convension
+// 'iat' is short for 'issued at time' also a convension
+const createUserToken = user => {
+  const iat = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat}, config.secret);
+}
 
 module.exports = (req, res, next) => {
   const { body: { email, password } } = req;
@@ -18,7 +27,8 @@ module.exports = (req, res, next) => {
       // if a user with email does NOT exist, create and save user record
       const user = new User({ email, password });
       // respond to request indicating the user was created
-      user.save().then(() => res.json({ success: true }));
+      // and send the token to the user
+      user.save().then(() => res.json({ token: createUserToken(user) }));
     },
     err => {
       next(err);
