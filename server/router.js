@@ -1,5 +1,7 @@
-const Authentication = require('./controllers/authentication');
+const AuthenticationController = require('./controllers/authentication');
+const usersController = require('./controllers/users');
 
 module.exports = app => {
-  app.post('/signup', Authentication.signup);
+  app.post('/signup', AuthenticationController);
+  app.get('/users', usersController);
 };

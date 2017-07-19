@@ -1,6 +1,6 @@
 const User = require('../models/user');
 
-exports.signup = (req, res, next) => {
+module.exports = (req, res, next) => {
   const { body: { email, password } } = req;
 
   if (!email || !password) {
