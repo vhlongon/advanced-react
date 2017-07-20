@@ -26,6 +26,20 @@ userSchema.pre('save', function(next) {
     });
   });
 });
+
+// everything inside a schema 'methods' prop is available to us
+// when creating new instances of the model
+userSchema.methods.comparePassword = (candidatePassword, storedPassword) =>
+  new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, storedPassword, (err, isMatch) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(isMatch);
+      }
+    });
+  });
+
 // Create the model class
 const ModelClass = mongoose.model('user', userSchema);
 

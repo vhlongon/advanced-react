@@ -1,15 +1,16 @@
 const jwt = require('jwt-simple');
 const User = require('../models/user');
-const config = require('../config');
+const { secret } = require('../config');
 
 // 'sub' is short for 'subject' and it is a convension
 // 'iat' is short for 'issued at time' also a convension
 const createUserToken = user => {
   const iat = new Date().getTime();
-  return jwt.encode({ sub: user.id, iat}, config.secret);
-}
+  const { id } = user;
+  return jwt.encode({ sub: id, iat }, secret);
+};
 
-module.exports = (req, res, next) => {
+exports.signup = (req, res, next) => {
   const { body: { email, password } } = req;
 
   if (!email || !password) {
@@ -34,4 +35,11 @@ module.exports = (req, res, next) => {
       next(err);
     }
   );
+};
+
+exports.signin = (req, res, next) => {
+  // User has already has their email and password auth'd
+  // we just need to give them a token
+  const { user } = req;
+  res.send({ token: createUserToken(user) });
 };
