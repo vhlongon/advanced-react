@@ -23,6 +23,7 @@ const PrivateRoute = ({
   component: Component,
   redirectPath,
   isAuthenticated,
+  message,
   ...rest
 }) => (
   <Route
@@ -31,7 +32,7 @@ const PrivateRoute = ({
       Component,
       isAuthenticated,
       pathname: redirectPath,
-      message: 'You need to sign in to view the Resources page'
+      message
     })}
   />
 );

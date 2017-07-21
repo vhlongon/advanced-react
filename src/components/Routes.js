@@ -29,6 +29,7 @@ export const Routes = ({ isAuthenticate }) => (
           redirectPath={paths.signin}
           isAuthenticated={isAuthenticate}
           component={Resources}
+          message="You need to sign in to view the resources page"
         />
         <Route component={NotFound} />
       </Switch>
