@@ -6,8 +6,6 @@ import authenticate from '../actions/authenticate';
 export const App = ({ title, authenticated }) => {
   return (
     <div className="app">
-      <h1 className="app__title">{title}</h1>
-      <i className="app__status">You are: {authenticated ? 'Logged-in' : 'Logged-out'}</i>
       <Routes isAuthenticate={authenticated} />
     </div>
   );
