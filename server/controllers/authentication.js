@@ -11,12 +11,12 @@ const createUserToken = user => {
 };
 
 exports.signup = (req, res, next) => {
-  const { body: { email, password } } = req;
+  const { body: { email, password, name } } = req;
 
-  if (!email || !password) {
+  if (!email || !password || !name) {
     return res
       .status(422)
-      .send({ error: 'You must provide email and password' });
+      .send({ error: 'You must provide all fields: email, password and name' });
   }
   // check if a user with the given email exists
   User.findOne({ email }).exec().then(
@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
         return res.status(422).send({ error: 'Email is in use' });
       }
       // if a user with email does NOT exist, create and save user record
-      const user = new User({ email, password });
+      const user = new User({ email, password, name });
       // respond to request indicating the user was created
       // and send the token to the user
       user.save().then(() => res.json({ token: createUserToken(user) }));
@@ -38,7 +38,8 @@ exports.signup = (req, res, next) => {
 };
 
 exports.signin = (req, res, next) => {
-  // User has already has their email and password auth'd
+  // User already has their email and password auth'd
+  // because the route using this controller is protected by a middleware theq requires auth
   // we just need to give them a token
   const { user } = req;
   res.send({ token: createUserToken(user) });

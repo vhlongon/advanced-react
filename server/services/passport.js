@@ -1,8 +1,7 @@
 const passport = require('passport');
 const User = require('../models/user');
 const { secret } = require('../config');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const LocalStrategy = require('passport-local');
 
 // Setup options for JWT Local Strategy
@@ -26,7 +25,7 @@ const localLogin = new LocalStrategy(
         if (!user) {
           done(null, false);
         } else {
-          // compare passwords - is `password` equal to user.password?
+          // compare passwords - is submittedPassword equal to the register user.password?
           // but first we have to encrypt (using the salt we have) the submitted password
           // to compare with the value stored on the DB (which is also an encrypted password)
           // we don't ever decrypt the password retrieved from the db
@@ -66,7 +65,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   const { sub } = payload;
   // See if the user ID in the payload exists in our database
   // if it does, call 'done' with that other
-  // otherwise, call done withou a user object
+  // otherwise, call done without an user object
 
   User.findById(sub).exec().then(
     (user, next) => {
