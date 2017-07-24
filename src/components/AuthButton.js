@@ -13,6 +13,7 @@ const handleClick = ({ authenticate, history, isAuthenticated }) => e => {
 export const Button = props => (
   <RaisedButton
     onTouchTap={handleClick(props)}
+    secondary
     label={props.isAuthenticated ? 'Sign out' : 'Sign in'}
   />
 );
