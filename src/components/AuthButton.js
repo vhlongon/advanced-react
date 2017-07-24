@@ -4,10 +4,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { paths } from './Routes';
 
 const handleClick = ({ authenticate, history, isAuthenticated }) => e => {
-  authenticate(
-    !isAuthenticated,
-    () => !isAuthenticated && history.push(paths.resources)
-  );
+  if (isAuthenticated) {
+    authenticate(!isAuthenticated, history.push(paths.home));
+  } else {
+    history.push(paths.signin);
+  }
 };
 
 export const Button = props => (

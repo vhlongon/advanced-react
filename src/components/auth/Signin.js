@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, withState, defaultProps, withHandlers } from 'recompose';
+import { compose, withState, withHandlers } from 'recompose';
 import Snackbar from 'material-ui/Snackbar';
 import Form from './Form';
 

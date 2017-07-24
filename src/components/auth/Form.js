@@ -1,12 +1,12 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux';
+import authenticate from '../../actions/authenticate';
+import { paths } from '../Routes';
 
-const submitForm = values => {
-  // TODO: add sigin logic here
-  console.log(values);
-};
 const validate = ({ email, password }) => {
   const errors = {};
   if (!email) {
@@ -23,7 +23,7 @@ const validate = ({ email, password }) => {
 };
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div style={{padding: '.5em'}}>
+  <div style={{ padding: '.5em' }}>
     <TextField
       hintText={label}
       type={type}
@@ -42,7 +42,21 @@ const formStyle = {
 };
 
 const SyncValidationForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const {
+    handleSubmit,
+    pristine,
+    reset,
+    submitting,
+    authenticate,
+    isAuthenticated,
+    history
+  } = props;
+  const submitForm = values => {
+    authenticate(
+      !isAuthenticated,
+      () => !isAuthenticated && history.push(paths.resources)
+    );
+  };
   return (
     <form onSubmit={handleSubmit(submitForm)} style={formStyle}>
       <Field name="email" type="text" label="Email" component={renderField} />
@@ -55,14 +69,14 @@ const SyncValidationForm = props => {
       <div>
         <RaisedButton
           type="submit"
-          style={{margin: '.5em'}}
+          style={{ margin: '.5em' }}
           disabled={submitting}
           secondary
           label="Submit"
         />
         <RaisedButton
           type="button"
-          style={{margin: '.5em'}}
+          style={{ margin: '.5em' }}
           disabled={pristine || submitting}
           label="Clear"
           onTouchTap={reset}
@@ -72,7 +86,13 @@ const SyncValidationForm = props => {
   );
 };
 
-export default reduxForm({
+export const form = withRouter(reduxForm({
   form: 'syncValidation',
   validate
-})(SyncValidationForm);
+})(SyncValidationForm));
+
+const mapStateToProps = ({ authenticated }) => ({
+  isAuthenticated: authenticated
+});
+
+export default connect(mapStateToProps, { authenticate })(form);

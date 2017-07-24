@@ -3,7 +3,7 @@ import AuthButton, { Button } from '../AuthButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 const renderButtonWithThemeProvider = props =>
   shallow(
@@ -27,18 +27,19 @@ describe('AuthButton', () => {
       expect(wrapper.find(RaisedButton).prop('label')).toBe('Sign out');
     });
 
-    it('set authentication to true and run callback', () => {
+    it('set authentication to false and navigate to home', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: true,
-        authenticate: mockAuthenticate
+        authenticate: mockAuthenticate,
+        history: { push: jest.fn((path) =>  path)}
       });
-
       wrapper.find(RaisedButton).props().onTouchTap();
-      expect(mockAuthenticate).toBeCalledWith(false, expect.any(Function));
+      expect(mockAuthenticate).toBeCalledWith(false, '/');
     });
   });
 
   describe('when not authenticated', () => {
+    const mockHistoryPush = jest.fn((path) =>  path);
     it('shows Sign in text', () => {
       const wrapper = shallow(
         <Button isAuthenticated={false} authenticate={mockAuthenticate} />
@@ -46,14 +47,15 @@ describe('AuthButton', () => {
       expect(wrapper.find(RaisedButton).prop('label')).toBe('Sign in');
     });
 
-    it('set authentication to false and run callback', () => {
+    it('navigate to signin', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: false,
-        authenticate: mockAuthenticate
+        authenticate: mockAuthenticate,
+        history: { push: mockHistoryPush}
       });
 
       wrapper.find(RaisedButton).props().onTouchTap();
-      expect(mockAuthenticate).toBeCalledWith(true, expect.any(Function));
+      expect(mockHistoryPush).toBeCalledWith('/signin');
     });
   });
 });
