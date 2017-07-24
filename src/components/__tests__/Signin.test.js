@@ -1,17 +1,39 @@
 import React from 'react';
-import Signin from '../Signin';
+import Snackbar from 'material-ui/Snackbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { Signin } from '../auth/Signin';
 import { Link } from 'react-router-dom';
+import SigninForm from '../auth/Form';
 import { shallow } from 'enzyme';
 
+const renderSnackbarWithThemeProvider = props =>
+  shallow(
+    <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <Signin {...props} />
+    </MuiThemeProvider>
+  ).dive();
+
 describe('Signin', () => {
-  it('should render the correct message when comming from redirect', () => {
-    const message = '/the-message';
-    const wrapper = shallow(<Signin location={{ state: { message } }} />);
-    expect(wrapper.find('p').text()).toBe(message);
+  describe('when comming from the redirect', () => {
+    const message = 'the-message';
+    const wrapper = renderSnackbarWithThemeProvider({
+      location: { state: { message } },
+      isOpen: true
+    });
+    it('shows the Snackbar', () => {
+      expect(wrapper.find(Snackbar).length).toBe(1);
+    });
+
+    it('renders the warning message sent by the router', () => {
+      expect(wrapper.find(Snackbar).prop('message')).toBe(message);
+    });
   });
-  it('should render default message', () => {
-    const message = '/the-message';
-    const wrapper = shallow(<Signin location={{}} />);
-    expect(wrapper.find('p').text()).toBe('Sign in section');
+
+  it('renders the sigin form', () => {
+    const wrapper = shallow(
+      <Signin location={{ state: { message: '' } }} isOpen />
+    );
+    expect(wrapper.find(SigninForm).length).toBe(1);
   });
 });

@@ -6,7 +6,7 @@ import Resources from '../Resources';
 
 describe('PrivateRouter', () => {
   
-  it('should render a <Route>', () => {
+  it('renders a <Route>', () => {
     const wrapper = shallow(<PrivateRoute />);
     expect(wrapper.find('Route').length).toBe(1);
   });
@@ -22,7 +22,7 @@ describe('PrivateRouter', () => {
       }}
     />
   );
-    it('should render the component when authenticated', () => {
+    it('renders the component when authenticated', () => {
       const config = {
         Component: MockComponent,
         pathname: '/the-path',
@@ -32,7 +32,7 @@ describe('PrivateRouter', () => {
 
       expect(renderComponent).toEqual(<MockComponent />);
     });
-    it('should render a redirect with the correct path when not authenticated', () => {
+    it('renders a redirect with the correct path when not authenticated', () => {
       const config = {
         Component: MockComponent,
         pathname: '/the-path',

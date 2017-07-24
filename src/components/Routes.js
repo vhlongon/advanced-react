@@ -7,7 +7,7 @@ import {
 import Header from './Header';
 import Home from './Home';
 import Resources from './Resources';
-import Signin from './Signin';
+import Signin from './auth/Signin';
 import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
 
