@@ -14,6 +14,7 @@ const renderButtonWithThemeProvider = props =>
 
 describe('AuthButton', () => {
   const mockAuthenticate = jest.fn();
+  const mockHistoryPush = jest.fn(path => path);
 
   it('renders the sign-in/sign-out button', () => {
     const wrapper = shallow(<Button />);
@@ -31,7 +32,7 @@ describe('AuthButton', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: true,
         authenticate: mockAuthenticate,
-        history: { push: jest.fn((path) =>  path)}
+        history: { push: mockHistoryPush }
       });
       wrapper.find(RaisedButton).props().onTouchTap();
       expect(mockAuthenticate).toBeCalledWith(false, '/');
@@ -39,7 +40,6 @@ describe('AuthButton', () => {
   });
 
   describe('when not authenticated', () => {
-    const mockHistoryPush = jest.fn((path) =>  path);
     it('shows Sign in text', () => {
       const wrapper = shallow(
         <Button isAuthenticated={false} authenticate={mockAuthenticate} />
@@ -51,7 +51,7 @@ describe('AuthButton', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: false,
         authenticate: mockAuthenticate,
-        history: { push: mockHistoryPush}
+        history: { push: mockHistoryPush }
       });
 
       wrapper.find(RaisedButton).props().onTouchTap();
