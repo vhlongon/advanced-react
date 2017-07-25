@@ -2,9 +2,9 @@ import React from 'react';
 import Snackbar from 'material-ui/Snackbar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { Signin } from '../auth/Signin';
+import { Signin } from '../Signin';
 import { Link } from 'react-router-dom';
-import SigninForm from '../auth/Form';
+import SigninForm from '../Form';
 import { shallow } from 'enzyme';
 
 const renderSnackbarWithThemeProvider = props =>
