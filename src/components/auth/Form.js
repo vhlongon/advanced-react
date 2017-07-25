@@ -26,7 +26,7 @@ export const SigninForm = ({
   history
 }) => {
   const submitForm = values => {
-    console.log(submitForm)
+    console.log('submitForm', values)
     authenticate(
       !isAuthenticated,
       () => !isAuthenticated && history.push(paths.resources)

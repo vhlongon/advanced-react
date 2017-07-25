@@ -58,23 +58,37 @@ describe('TextField', () => {
   });
 
   describe('when click on submit', () => {
-    const mockSubmit = jest.fn();
-    it('call the handleSubmit function', () => {
-      const wrapper = renderSignInFormWithThemeProvider({
-        handleSubmit: () => mockSubmit
-      });
+    it('redirects to resources page if authenticated', () => {
+      const isAuthenticated = true;
+      const mockAuthenticate = jest.fn();
+      const mockHistoryPush = jest.fn(path => path);
+      const mockSubmit = jest.fn(values =>
+        mockAuthenticate(!isAuthenticated, mockHistoryPush('/resources'))
+      );
+      const props = {
+        handleSubmit: () => mockSubmit,
+        history: mockHistoryPush,
+        isAuthenticated,
+        authenticate: mockAuthenticate
+      };
+      const wrapper = shallow(
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <SigninForm {...props} />
+        </MuiThemeProvider>
+      );
       const submitButton = wrapper
+        .dive()
         .find(RaisedButton)
         .filterWhere(button => button.prop('type') === 'submit');
-
       submitButton.props().onTouchTap();
-      expect(mockSubmit).toHaveBeenCalled();
+
+      expect(mockAuthenticate).toHaveBeenCalledWith(false, '/resources');
     });
   });
 
   describe('when click on clear', () => {
     const mockReset = jest.fn();
-    it('call the handleSubmit function', () => {
+    it('call the reset function', () => {
       const wrapper = renderSignInFormWithThemeProvider({
         reset: mockReset,
         handleSubmit: () => jest.fn()
@@ -87,38 +101,4 @@ describe('TextField', () => {
       expect(mockReset).toHaveBeenCalled();
     });
   });
-
-  // describe('when there is a validation error', () => {
-  //   const error = 'error';
-  //   describe('when is not touched', () => {
-  //     it('does not show error message', () => {
-  //       const wrapper = renderButtonWithThemeProvider({
-  //         meta: { error }
-  //       });
-
-  //       expect(wrapper.find(MuiTextField).prop('errorText')).toBe('');
-  //     });
-  //   });
-
-  //   describe('when is touched', () => {
-  //     it('does show error message', () => {
-  //       const error = 'error';
-  //       const wrapper = renderButtonWithThemeProvider({
-  //         meta: { error, touched: true }
-  //       });
-
-  //       expect(wrapper.find(MuiTextField).prop('errorText')).toBe(error);
-  //     });
-  //   });
-
-  //   describe('when there is no error', () => {
-  //     it('does not show error message', () => {
-  //       const wrapper = renderButtonWithThemeProvider({
-  //         meta: { error }
-  //       });
-
-  //       expect(wrapper.find(MuiTextField).prop('errorText')).toBe('');
-  //     });
-  //   });
-  // });
 });
