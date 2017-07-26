@@ -1,7 +1,7 @@
 import React from 'react';
 import { App } from '../App';
-import { Routes } from '../Routes';
 import { shallow } from 'enzyme';
+import Routes from '../Routes';
 
 describe('App', () => {
   it('has the correct class the routes', () => {

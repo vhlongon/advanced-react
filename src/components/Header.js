@@ -3,6 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import StatusBar from './StatusBar';
 import authenticate from '../actions/authenticate';
 import AuthButton from './AuthButton';
 import { paths } from './Routes';
@@ -44,9 +45,7 @@ export const Header = props => (
       iconStyleLeft={{ display: 'none' }}
       children={BarItems(props)}
     />
-    <i className="app__status">
-      You are: {props.authenticated ? 'Logged-in' : 'Logged-out'}
-    </i>
+    <StatusBar text={props.authenticated ? 'Logged-in' : 'Logged-out'} />
 
   </div>
 );
