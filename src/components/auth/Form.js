@@ -23,16 +23,18 @@ export const SigninForm = ({
   submitting,
   authenticate,
   isAuthenticated,
-  history,
-  submitForm
+  history
 }) => {
+  const submitForm = values => {
+    console.log('submitForm', values)
+    authenticate(
+      !isAuthenticated,
+      () => !isAuthenticated && history.push(paths.resources)
+    );
+  };
+
   return (
-    <form
-      style={formStyle}
-      onSubmit={handleSubmit(
-        submitForm(isAuthenticated, authenticate, history)
-      )}
-    >
+    <form style={formStyle}>
       <Field name="email" type="text" label="Email" component={TextField} />
       <Field
         name="password"
@@ -47,6 +49,7 @@ export const SigninForm = ({
           disabled={submitting}
           secondary
           label="Submit"
+          onTouchTap={handleSubmit(submitForm)}
         />
         <RaisedButton
           type="button"
@@ -60,12 +63,12 @@ export const SigninForm = ({
   );
 };
 
-export const formWithReduxForm = reduxForm({
-  form: 'syncValidation',
-  validate
-})(SigninForm);
-
-export const formWithRouter = withRouter(formWithReduxForm);
+export const formWithRouter = withRouter(
+  reduxForm({
+    form: 'syncValidation',
+    validate
+  })(SigninForm)
+);
 
 const mapStateToProps = ({ authenticated }) => ({
   isAuthenticated: authenticated

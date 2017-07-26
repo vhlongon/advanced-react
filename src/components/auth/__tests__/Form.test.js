@@ -3,8 +3,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Field } from 'redux-form';
-import Form, { SigninForm, formWithReduxForm } from '../Form';
-import { shallow, mount } from 'enzyme';
+import Form, { formWithRouter, SigninForm } from '../Form';
+import { shallow } from 'enzyme';
 
 const renderSignInFormWithThemeProvider = props =>
   shallow(
@@ -16,8 +16,7 @@ const renderSignInFormWithThemeProvider = props =>
 describe('TextField', () => {
   it('renders a submit button', () => {
     const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn(),
-      submitForm: () => jest.fn()
+      handleSubmit: jest.fn()
     });
     expect(
       wrapper
@@ -28,8 +27,7 @@ describe('TextField', () => {
 
   it('renders a reset button', () => {
     const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn(),
-      submitForm: () => jest.fn()
+      handleSubmit: jest.fn()
     });
     expect(
       wrapper
@@ -40,8 +38,7 @@ describe('TextField', () => {
 
   it('renders an email Field', () => {
     const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn(),
-      submitForm: () => jest.fn()
+      handleSubmit: jest.fn()
     });
     expect(
       wrapper.find(Field).filterWhere(field => field.prop('name') === 'email')
@@ -51,8 +48,7 @@ describe('TextField', () => {
 
   it('renders a password Field', () => {
     const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn(),
-      submitForm: () => jest.fn()
+      handleSubmit: jest.fn()
     });
     expect(
       wrapper
@@ -61,37 +57,42 @@ describe('TextField', () => {
     ).toBe(1);
   });
 
-  describe('when submit the form', () => {
-    it('toggle authentication status and redirect to resources page', () => {
+  describe('when click on submit', () => {
+    it('redirects to resources page if authenticated', () => {
       const isAuthenticated = true;
-      const mockSubmit = jest.fn(() => () => {});
-      const props = {
-        handleSubmit: jest.fn(),
-        history: jest.fn(),
-        isAuthenticated,
-        authenticate: jest.fn(),
-        submitForm: mockSubmit
-      };
-      const wrapper = shallow(<SigninForm {...props} />);
-      wrapper.find('form').simulate('submit');
-
-      expect(mockSubmit).toBeCalledWith(
-        true, // isAuthenticated
-        expect.any(Function), //authenticate
-        expect.any(Function) // Router history
+      const mockAuthenticate = jest.fn();
+      const mockHistoryPush = jest.fn(path => path);
+      const mockSubmit = jest.fn(values =>
+        mockAuthenticate(!isAuthenticated, mockHistoryPush('/resources'))
       );
+      const props = {
+        handleSubmit: () => mockSubmit,
+        history: mockHistoryPush,
+        isAuthenticated,
+        authenticate: mockAuthenticate
+      };
+      const wrapper = shallow(
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <SigninForm {...props} />
+        </MuiThemeProvider>
+      );
+      const submitButton = wrapper
+        .dive()
+        .find(RaisedButton)
+        .filterWhere(button => button.prop('type') === 'submit');
+      submitButton.props().onTouchTap();
+
+      expect(mockAuthenticate).toHaveBeenCalledWith(false, '/resources');
     });
   });
 
   describe('when click on clear', () => {
     const mockReset = jest.fn();
     it('call the reset function', () => {
-      const props = {
+      const wrapper = renderSignInFormWithThemeProvider({
         reset: mockReset,
-        handleSubmit: () => jest.fn(),
-        submitForm: jest.fn()
-      };
-      const wrapper = shallow(<SigninForm {...props} />);
+        handleSubmit: () => jest.fn()
+      });
       const clearButton = wrapper
         .find(RaisedButton)
         .filterWhere(button => button.prop('label') === 'Clear');
