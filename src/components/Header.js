@@ -8,17 +8,18 @@ import authenticate from '../actions/authenticate';
 import AuthButton from './AuthButton';
 import { paths } from './Routes';
 
-const barItemsStyle = {
+const barListStyle = {
   display: 'flex',
   listStyle: 'none',
   justifyContent: 'space-between',
   width: '100%',
   marginTop: '0',
-  paddingLeft: '0'
+  paddingLeft: '0',
+  maxWidth: '300px'
 };
 
 const BarItems = ({ authenticated, authenticate }) => (
-  <ul className="header__list" style={barItemsStyle}>
+  <ul className="header__list" style={barListStyle}>
     <li className="header__item">
       <Link to={paths.home}>
         <RaisedButton label="Home" />
@@ -35,10 +36,10 @@ const BarItems = ({ authenticated, authenticate }) => (
   </ul>
 );
 
-const appBarStyle = { display: 'flex', flexDirection: 'column' };
+const appBarStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center' };
 
 export const Header = props => (
-  <div>
+  <div style={{width: '100%'}}>
     <AppBar
       style={appBarStyle}
       title="React Auth App"
