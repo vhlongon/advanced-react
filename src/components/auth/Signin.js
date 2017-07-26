@@ -2,6 +2,8 @@ import React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 import Snackbar from 'material-ui/Snackbar';
 import Form from './Form';
+import { paths } from '../Routes';
+
 
 const enhance = compose(
   withState('isOpen', 'toggleOpen', true),
@@ -9,6 +11,14 @@ const enhance = compose(
     handleTouchTap: ({ isOpen }, { toggleOpen }) => () => toggleOpen(!isOpen)
   })
 );
+
+const submitForm = (isAuthenticated, authenticate, history) => values => {
+  console.log('submitForm', values);
+  authenticate(
+    !isAuthenticated,
+    () => !isAuthenticated && history.push(paths.resources)
+  );
+};
 
 export const Signin = props => {
   const { location: { state }, handleTouchTap, isOpen } = props;
@@ -21,7 +31,7 @@ export const Signin = props => {
           message={state.message}
           onActionTouchTap={handleTouchTap}
         />}
-      <Form />
+      <Form submitForm={submitForm} />
     </div>
   );
 };
