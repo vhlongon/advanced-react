@@ -6,83 +6,81 @@ import { Field } from 'redux-form';
 import Form, { formWithRouter, SigninForm } from '../Form';
 import { shallow } from 'enzyme';
 
-const renderSignInFormWithThemeProvider = props =>
+const renderSignInFormWithThemeProvider = (
+  {
+    mockHandleSubmit = jest.fn(),
+    submitForm = jest.fn(),
+    history = jest.fn(),
+    authenticate = jest.fn(),
+    ...rest
+  } = {}
+) =>
   shallow(
     <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <SigninForm {...props} />
+      <SigninForm
+        handleSubmit={mockHandleSubmit}
+        submitForm={submitForm}
+        history={history}
+        authenticate={authenticate}
+        {...rest}
+      />
     </MuiThemeProvider>
   ).dive();
 
 describe('TextField', () => {
   it('renders a submit button', () => {
     const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn()
+      handleSubmit: jest.fn(),
+      submitForm: jest.fn()
     });
-    expect(
-      wrapper
-        .find(RaisedButton)
-        .filterWhere(button => button.prop('type') === 'submit').length
-    ).toBe(1);
-  });
 
-  it('renders a reset button', () => {
-    const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn()
-    });
     expect(
-      wrapper
-        .find(RaisedButton)
-        .filterWhere(button => button.prop('label') === 'Clear').length
-    ).toBe(1);
-  });
-
-  it('renders an email Field', () => {
-    const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn()
-    });
-    expect(
-      wrapper.find(Field).filterWhere(field => field.prop('name') === 'email')
+      wrapper.find(RaisedButton).filterWhere(n => n.prop('type') === 'submit')
         .length
     ).toBe(1);
   });
 
-  it('renders a password Field', () => {
-    const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn()
-    });
+  it('renders a reset button', () => {
+    const wrapper = renderSignInFormWithThemeProvider();
+
     expect(
-      wrapper
-        .find(Field)
-        .filterWhere(field => field.prop('name') === 'password').length
+      wrapper.find(RaisedButton).filterWhere(n => n.prop('label') === 'Clear')
+        .length
+    ).toBe(1);
+  });
+
+  it('renders an email Field', () => {
+    const wrapper = renderSignInFormWithThemeProvider();
+
+    expect(
+      wrapper.find(Field).filterWhere(n => n.prop('name') === 'email').length
+    ).toBe(1);
+  });
+
+  it('renders a password Field', () => {
+    const wrapper = renderSignInFormWithThemeProvider();
+
+    expect(
+      wrapper.find(Field).filterWhere(n => n.prop('name') === 'password').length
     ).toBe(1);
   });
 
   describe('when click on submit', () => {
-    it('redirects to resources page if authenticated', () => {
+    it('toggle authentication status and redirect to /resources', () => {
       const isAuthenticated = true;
-      const mockAuthenticate = jest.fn();
-      const mockHistoryPush = jest.fn(path => path);
-      const mockSubmit = jest.fn(values =>
-        mockAuthenticate(!isAuthenticated, mockHistoryPush('/resources'))
-      );
+      const mockSubmit = jest.fn(() => () => {});
       const props = {
-        handleSubmit: () => mockSubmit,
-        history: mockHistoryPush,
         isAuthenticated,
-        authenticate: mockAuthenticate
+        submitForm: mockSubmit
       };
-      const wrapper = shallow(
-        <MuiThemeProvider muiTheme={getMuiTheme()}>
-          <SigninForm {...props} />
-        </MuiThemeProvider>
-      );
-      const submitButton = wrapper
-        .dive()
-        .find(RaisedButton)
-        .filterWhere(button => button.prop('type') === 'submit');
-      submitButton.props().onTouchTap();
+      const wrapper = renderSignInFormWithThemeProvider(props);
+      wrapper.find('form').simulate('submit');
 
-      expect(mockAuthenticate).toHaveBeenCalledWith(false, '/resources');
+      expect(mockSubmit).toBeCalledWith(
+        expect.any(Function),
+        true,
+        expect.any(Function)
+      );
     });
   });
 
@@ -90,8 +88,7 @@ describe('TextField', () => {
     const mockReset = jest.fn();
     it('call the reset function', () => {
       const wrapper = renderSignInFormWithThemeProvider({
-        reset: mockReset,
-        handleSubmit: () => jest.fn()
+        reset: mockReset
       });
       const clearButton = wrapper
         .find(RaisedButton)

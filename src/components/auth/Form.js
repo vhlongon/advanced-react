@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import TextField from './TextField';
 import authenticate from '../../actions/authenticate';
-import { paths } from '../Routes';
 import validate from './validate';
 
 const formStyle = {
@@ -23,18 +22,16 @@ export const SigninForm = ({
   submitting,
   authenticate,
   isAuthenticated,
-  history
+  history,
+  submitForm
 }) => {
-  const submitForm = values => {
-    console.log('submitForm', values)
-    authenticate(
-      !isAuthenticated,
-      () => !isAuthenticated && history.push(paths.resources)
-    );
-  };
-
   return (
-    <form style={formStyle}>
+    <form
+      style={formStyle}
+      onSubmit={handleSubmit(
+        submitForm(authenticate, isAuthenticated, history)
+      )}
+    >
       <Field name="email" type="text" label="Email" component={TextField} />
       <Field
         name="password"
@@ -49,7 +46,6 @@ export const SigninForm = ({
           disabled={submitting}
           secondary
           label="Submit"
-          onTouchTap={handleSubmit(submitForm)}
         />
         <RaisedButton
           type="button"
