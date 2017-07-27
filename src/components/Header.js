@@ -7,6 +7,7 @@ import StatusBar from './StatusBar';
 import { changeAuth } from '../actions/authenticate';
 import AuthButton from './AuthButton';
 import { paths } from './Routes';
+import { getIsAuthenticated } from '../selectors';
 
 const barListStyle = {
   display: 'flex',
@@ -61,8 +62,6 @@ export const Header = props => (
   </div>
 );
 
-const mapStateToProps = ({ auth }) => ({
-  isAuthenticated: auth.isAuthenticated
-});
+const mapStateToProps = getIsAuthenticated;
 
 export default connect(mapStateToProps, { changeAuth })(Header);

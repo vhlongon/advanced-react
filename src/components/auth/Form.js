@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import TextField from './TextField';
 import { changeAuth } from '../../actions/authenticate';
 import validate from './validate';
+import { getIsAuthenticated } from '../../selectors';
 
 const formStyle = {
   width: 'calc(100% - 2em)',
@@ -58,8 +59,6 @@ export const formWithRouter = withRouter(
   })(SigninForm)
 );
 
-const mapStateToProps = ({ auth }) => ({
-  isAuthenticated: auth.isAuthenticated
-});
+const mapStateToProps = getIsAuthenticated;
 
 export default connect(mapStateToProps, { changeAuth })(formWithRouter);

@@ -3,9 +3,7 @@ import { all, call, select, takeEvery } from 'redux-saga/effects';
 import { CHANGE_AUTH } from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
-
-// selectors
-const getIsAuthenticated = state => state.auth.isAuthenticated;
+import { getIsAuthenticated } from '../selectors';
 
 // request config stuff
 const ROOT_URL = 'http://localhost:3090';
@@ -26,7 +24,7 @@ const sendData = (data, url) =>
 
 export function* authChange() {
   const isAuthenticated = yield select(getIsAuthenticated);
-  
+
   yield delay(500);
   // const data = new FormData({email, password})
 

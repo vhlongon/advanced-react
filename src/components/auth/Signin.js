@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import Form from './Form';
 import { changeAuth } from '../../actions/authenticate';
+import { getIsAuthenticated } from '../../selectors';
 
 const enhance = compose(
   withState('isOpen', 'toggleOpen', true),
@@ -36,9 +37,7 @@ export const Signin = props => {
   );
 };
 
-const mapStateToProps = ({ auth }) => ({
-  isAuthenticated: auth.isAuthenticated
-});
+const mapStateToProps = getIsAuthenticated;
 
 export default connect(mapStateToProps, { changeAuth })(
   enhance(Signin)
