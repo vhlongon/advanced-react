@@ -20,18 +20,10 @@ export const SigninForm = ({
   pristine,
   reset,
   submitting,
-  authenticate,
-  isAuthenticated,
-  history,
-  submitForm
+  submitForm,
 }) => {
   return (
-    <form
-      style={formStyle}
-      onSubmit={handleSubmit(
-        submitForm(authenticate, isAuthenticated, history)
-      )}
-    >
+    <form style={formStyle} onSubmit={handleSubmit(submitForm)}>
       <Field name="email" type="text" label="Email" component={TextField} />
       <Field
         name="password"

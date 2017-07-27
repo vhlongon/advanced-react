@@ -2,12 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import theme from './theme';
-import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import App from './components/App';
 import reducers from './reducers';
+import Sagas from './sagas';
 import registerServiceWorker from './registerServiceWorker';
+import theme from './theme';
 import './index.css';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -17,10 +19,13 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   reducers,
-  /* preloadedState, */ composeEnhancers(applyMiddleware())
+  /* preloadedState, */ composeEnhancers(applyMiddleware(sagaMiddleware))
 );
+
+sagaMiddleware.run(Sagas);
 
 ReactDOM.render(
   <Provider store={store}>

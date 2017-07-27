@@ -8,7 +8,7 @@ import { shallow } from 'enzyme';
 
 const renderSignInFormWithThemeProvider = (
   {
-    mockHandleSubmit = jest.fn(),
+    handleSubmit = jest.fn(),
     submitForm = jest.fn(),
     history = jest.fn(),
     authenticate = jest.fn(),
@@ -18,21 +18,17 @@ const renderSignInFormWithThemeProvider = (
   shallow(
     <MuiThemeProvider muiTheme={getMuiTheme()}>
       <SigninForm
-        handleSubmit={mockHandleSubmit}
+        handleSubmit={handleSubmit}
         submitForm={submitForm}
-        history={history}
         authenticate={authenticate}
         {...rest}
       />
     </MuiThemeProvider>
   ).dive();
 
-describe('TextField', () => {
+describe('Form', () => {
   it('renders a submit button', () => {
-    const wrapper = renderSignInFormWithThemeProvider({
-      handleSubmit: jest.fn(),
-      submitForm: jest.fn()
-    });
+    const wrapper = renderSignInFormWithThemeProvider();
 
     expect(
       wrapper.find(RaisedButton).filterWhere(n => n.prop('type') === 'submit')
@@ -67,20 +63,19 @@ describe('TextField', () => {
 
   describe('when click on submit', () => {
     it('toggle authentication status and redirect to /resources', () => {
-      const isAuthenticated = true;
+      const isAuthenticated = false;
       const mockSubmit = jest.fn(() => () => {});
       const props = {
         isAuthenticated,
-        submitForm: mockSubmit
+        submitForm: mockSubmit,
+        onSubmit: jest.fn()
       };
-      const wrapper = renderSignInFormWithThemeProvider(props);
-      wrapper.find('form').simulate('submit');
-
-      expect(mockSubmit).toBeCalledWith(
-        expect.any(Function),
-        true,
-        expect.any(Function)
+      const wrapper = shallow(
+        <SigninForm handleSubmit={jest.fn(fn => fn)} submitForm={mockSubmit} />
       );
+
+      wrapper.find('form').simulate('submit');
+      expect(mockSubmit).toHaveBeenCalled();
     });
   });
 

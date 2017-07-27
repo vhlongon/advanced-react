@@ -2,6 +2,10 @@ import React from 'react';
 import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
 
+const Tag = ({ Tag, text, className }) => (
+  <Tag className={className}>{text}</Tag>
+);
+
 export const AvatarImg = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -20,14 +24,10 @@ const StatusBar = ({ text }) => {
       disabled={true}
       style={{ backgroundColor: '#f3f3f3' }}
       leftAvatar={
-        <Avatar
-          icon={<AvatarImg />}
-          color="#ddd"
-          backgroundColor="#e0e0e0"
-        />
+        <Avatar icon={<AvatarImg />} color="#ddd" backgroundColor="#e0e0e0" />
       }
     >
-      <div className="status__text">You are: {<i>{text}</i>}</div>
+      <Tag className="status__text" Tag="small" text={`You are ${text}`} />
     </ListItem>
   );
 };

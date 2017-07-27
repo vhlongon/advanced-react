@@ -3,14 +3,14 @@ import Routes from './Routes';
 import { connect } from 'react-redux';
 import authenticate from '../actions/authenticate';
 
-export const App = ({ title, authenticated }) => {
+export const App = ({ title, isAuthenticated }) => {
   return (
     <div className="app">
-      <Routes isAuthenticate={authenticated} />
+      <Routes isAuthenticate={isAuthenticated} />
     </div>
   );
 };
 
-const mapStateToProps = ({ authenticated }) => ({ authenticated });
+const mapStateToProps = ({ isAuthenticated }) => ({ isAuthenticated });
 
 export default connect(mapStateToProps, { authenticate })(App);

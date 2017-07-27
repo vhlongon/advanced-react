@@ -18,39 +18,49 @@ const barListStyle = {
   maxWidth: '300px'
 };
 
-const BarItems = ({ authenticated, authenticate }) => (
-  <ul className="header__list" style={barListStyle}>
-    <li className="header__item">
-      <Link to={paths.home}>
-        <RaisedButton label="Home" />
-      </Link>
-    </li>
-    <li className="header__item">
-      <Link to={paths.resources}>
-        <RaisedButton label="Resources" />
-      </Link>
-    </li>
-    <li className="header__item">
-      <AuthButton isAuthenticated={authenticated} authenticate={authenticate} />
-    </li>
-  </ul>
-);
+const BarItems = props => {
+  const { isAuthenticated, authenticate } = props;
+  return (
+    <ul className="header__list" style={barListStyle}>
+      <li className="header__item">
+        <Link to={paths.home}>
+          <RaisedButton label="Home" />
+        </Link>
+      </li>
+      <li className="header__item">
+        <Link to={paths.resources}>
+          <RaisedButton label="Resources" />
+        </Link>
+      </li>
+      <li className="header__item">
+        <AuthButton
+          isAuthenticated={isAuthenticated}
+          authenticate={authenticate}
+        />
+      </li>
+    </ul>
+  );
+};
 
-const appBarStyle = { display: 'flex', flexDirection: 'column', alignItems: 'center' };
+const appBarStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+};
 
 export const Header = props => (
-  <div style={{width: '100%'}}>
+  <div style={{ width: '100%' }}>
     <AppBar
       style={appBarStyle}
       title="React Auth App"
       iconStyleLeft={{ display: 'none' }}
       children={BarItems(props)}
     />
-    <StatusBar text={props.authenticated ? 'Logged-in' : 'Logged-out'} />
+    <StatusBar text={props.isAuthenticated ? 'Logged-in' : 'Logged-out'} />
 
   </div>
 );
 
-const mapStateToProps = ({ authenticated }) => ({ authenticated });
+const mapStateToProps = ({ isAuthenticated }) => ({ isAuthenticated });
 
 export default connect(mapStateToProps, { authenticate })(Header);

@@ -5,7 +5,8 @@ import { paths } from './Routes';
 
 const handleClick = ({ authenticate, history, isAuthenticated }) => e => {
   if (isAuthenticated) {
-    authenticate(!isAuthenticated, history.push(paths.home));
+    authenticate();
+    history.push(paths.home);
   } else {
     history.push(paths.signin);
   }

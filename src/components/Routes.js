@@ -1,9 +1,10 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Switch
 } from 'react-router-dom';
+import history from '../history';
 import Header from './Header';
 import Home from './Home';
 import Resources from './Resources';
@@ -18,7 +19,7 @@ export const paths = {
 }
 
 export const Routes = ({ isAuthenticate }) => (
-  <Router>
+  <Router history={history}>
     <div>
       <Header />
       <Switch>

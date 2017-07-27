@@ -13,7 +13,7 @@ const renderButtonWithThemeProvider = props =>
   ).dive();
 
 describe('AuthButton', () => {
-  const mockAuthenticate = jest.fn();
+  const mockAuthenticate = jest.fn(() => () => {});
   const mockHistoryPush = jest.fn(path => path);
 
   it('renders the sign-in/sign-out button', () => {
@@ -28,14 +28,24 @@ describe('AuthButton', () => {
       expect(wrapper.find(RaisedButton).prop('label')).toBe('Sign out');
     });
 
-    it('set authentication to false and navigate to home', () => {
+    it('calls authentication', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: true,
         authenticate: mockAuthenticate,
         history: { push: mockHistoryPush }
       });
       wrapper.find(RaisedButton).props().onTouchTap();
-      expect(mockAuthenticate).toBeCalledWith(false, '/');
+      expect(mockAuthenticate).toHaveBeenCalled();
+    });
+
+    it('navigates to home', () => {
+      const wrapper = renderButtonWithThemeProvider({
+        isAuthenticated: true,
+        authenticate: mockAuthenticate,
+        history: { push: mockHistoryPush }
+      });
+      wrapper.find(RaisedButton).props().onTouchTap();
+      expect(mockHistoryPush).toBeCalledWith('/');
     });
   });
 
