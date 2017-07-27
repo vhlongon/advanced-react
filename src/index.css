@@ -3,3 +3,20 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: #737373;
+  -webkit-box-shadow: 0 0 0px 1000px #f3f3f3 inset;
+}
+input:-moz-autofill {
+  -moz-text-fill-color: #737373;
+  -moz-box-shadow: 0 0 0px 1000px #f3f3f3 inset;
+}
+input:-o-autofill {
+  -o-text-fill-color: #737373;
+  -o-box-shadow: 0 0 0px 1000px #f3f3f3 inset;
+}
+input:-khtml-autofill {
+  -khtml-text-fill-color: #737373;
+  -khtml-box-shadow: 0 0 0px 1000px #f3f3f3 inset;
+}
