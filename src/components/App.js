@@ -1,7 +1,7 @@
 import React from 'react';
 import Routes from './Routes';
 import { connect } from 'react-redux';
-import authenticate from '../actions/authenticate';
+import { changeAuth } from '../actions/authenticate';
 
 export const App = ({ title, isAuthenticated }) => {
   return (
@@ -11,6 +11,8 @@ export const App = ({ title, isAuthenticated }) => {
   );
 };
 
-const mapStateToProps = ({ isAuthenticated }) => ({ isAuthenticated });
+const mapStateToProps = ({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated
+});
 
-export default connect(mapStateToProps, { authenticate })(App);
+export default connect(mapStateToProps, { changeAuth })(App);

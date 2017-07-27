@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import TextField from './TextField';
-import authenticate from '../../actions/authenticate';
+import { changeAuth } from '../../actions/authenticate';
 import validate from './validate';
 
 const formStyle = {
@@ -20,7 +20,7 @@ export const SigninForm = ({
   pristine,
   reset,
   submitting,
-  submitForm,
+  submitForm
 }) => {
   return (
     <form style={formStyle} onSubmit={handleSubmit(submitForm)}>
@@ -58,8 +58,8 @@ export const formWithRouter = withRouter(
   })(SigninForm)
 );
 
-const mapStateToProps = ({ authenticated }) => ({
-  isAuthenticated: authenticated
+const mapStateToProps = ({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { authenticate })(formWithRouter);
+export default connect(mapStateToProps, { changeAuth })(formWithRouter);

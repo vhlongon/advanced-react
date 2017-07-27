@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const app = express();
 const router = require('./router');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // Use native promises instead of callbacks for mongon
 mongoose.Promise = global.Promise;
@@ -18,6 +19,9 @@ mongoose.connect('mongodb://localhost:auth/auth');
 // App setup
 // morgan is a logging middleware to ouput each request from the browser in the terminal
 app.use(morgan('combined'));
+// enable cross browser requests //
+// it can take options to only allow certain url's to get through, for instance
+app.use(cors());
 // bodyParser is a middleware responsive for parsing each incoming request as json
 app.use(bodyParser.json({ type: '*/*' }));
 router(app);

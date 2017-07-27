@@ -3,7 +3,7 @@ import authenticationReducer from './authentication';
 import { reducer as form } from 'redux-form';
 
 const rootReducer = combineReducers({
-  isAuthenticated: authenticationReducer,
+  auth: authenticationReducer,
   form
 });
 

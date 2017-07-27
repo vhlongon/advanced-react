@@ -3,7 +3,7 @@ import { compose, withState, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import Form from './Form';
-import authenticate from '../../actions/authenticate';
+import { changeAuth } from '../../actions/authenticate';
 
 const enhance = compose(
   withState('isOpen', 'toggleOpen', true),
@@ -21,12 +21,7 @@ const submitForm = authenticate => values => {
 };
 
 export const Signin = props => {
-  const {
-    location: { state },
-    handleTouchTap,
-    isOpen,
-    authenticate
-  } = props;
+  const { location: { state }, handleTouchTap, isOpen, changeAuth } = props;
   return (
     <div>
       {state &&
@@ -36,11 +31,15 @@ export const Signin = props => {
           message={state.message}
           onActionTouchTap={handleTouchTap}
         />}
-      <Form submitForm={submitForm(authenticate)} />
+      <Form submitForm={submitForm(changeAuth)} />
     </div>
   );
 };
 
-const mapStateToProps = ({ isAuthenticated }) => ({ isAuthenticated });
+const mapStateToProps = ({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated
+});
 
-export default connect(mapStateToProps, { authenticate })(enhance(Signin));
+export default connect(mapStateToProps, { changeAuth })(
+  enhance(Signin)
+);
