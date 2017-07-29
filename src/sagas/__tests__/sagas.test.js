@@ -8,7 +8,7 @@ import watchAllSagas, {
   removeItemFromLocalStorage
 } from '../index';
 import { CHANGE_AUTH, SIGNIN_SUBMIT } from '../../actions/types';
-import { authUser, signinFailure } from '../../actions/authenticate';
+import { signinSuccess, signinFailure } from '../../actions/authenticate';
 import history from '../../history';
 
 describe('root saga', () => {
@@ -58,7 +58,7 @@ describe('root saga', () => {
         expect(result.value).toEqual(call(setItemToLocalStorage, token));
       });
 
-      it('dispaches authUser', () => {
+      it('dispaches signinSuccess', () => {
         const token = 'token';
         const res = { data: { token } };
         const payload = { email: 'email', passord: 'password' };
@@ -71,7 +71,7 @@ describe('root saga', () => {
         it.next(res);
         it.next();
         const result = it.next();
-        expect(result.value).toEqual(put(authUser()));
+        expect(result.value).toEqual(put(signinSuccess()));
       });
 
       it('redirects to /resources', () => {

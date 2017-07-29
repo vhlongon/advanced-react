@@ -4,7 +4,7 @@ import axios from 'axios';
 import { CHANGE_AUTH, SIGNIN_SUBMIT, SIGNIN_SUCCESS } from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
-import { authUser, signinFailure } from '../actions/authenticate';
+import { signinSuccess, signinFailure } from '../actions/authenticate';
 import { getIsAuthenticated } from '../selectors';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -33,7 +33,7 @@ export function* formSignin({ payload }) {
     const { data: { token } } = result;
     yield token;
     yield call(setItemToLocalStorage, token);
-    yield put(authUser());
+    yield put(signinSuccess());
     yield call(history.push, paths.resources);
   } catch (error) {
     //yield call(removeItemFromLocalStorage);

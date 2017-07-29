@@ -1,17 +1,17 @@
 import {
   CHANGE_AUTH,
-  AUTH_USER,
-  UNAUTH_USER,
+  SIGNIN_SUCCESS,
+  SIGNOUT,
   SIGNIN_FAILURE
 } from '../actions/types';
 
 const initialState = {};
 export default (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_USER: {
+    case SIGNIN_SUCCESS: {
       return { ...state, isAuthenticated: true };
     }
-    case UNAUTH_USER: {
+    case SIGNOUT: {
       return { ...state, isAuthenticated: false };
     }
     case SIGNIN_FAILURE: {

@@ -1,33 +1,28 @@
 import { shallow } from 'enzyme';
 import {
   CHANGE_AUTH,
-  AUTH_USER,
-  UNAUTH_USER,
+  SIGNIN_SUCCESS,
+  SIGNOUT,
   SIGNIN_SUBMIT,
   SIGNIN_FAILURE
 } from '../types';
 import {
-  changeAuth,
-  authUser,
-  unauthUser,
+  signinSuccess,
+  signOut,
   signinSubmit,
   signinFailure
 } from '../authenticate';
 
-describe('chamgeAuthenticate', () => {
-  it('returns the correct type', () => {
-    expect(changeAuth().type).toEqual(CHANGE_AUTH);
-  });
-
-  describe('authUser', () => {
+describe('authenticate actions', () => {
+  describe('signOut', () => {
     it('returns the correct type', () => {
-      expect(authUser().type).toEqual(AUTH_USER);
+      expect(signOut().type).toEqual(SIGNOUT);
     });
   });
 
-  describe('unauthUser', () => {
+  describe('signinSuccess', () => {
     it('returns the correct type', () => {
-      expect(unauthUser().type).toEqual(UNAUTH_USER);
+      expect(signinSuccess().type).toEqual(SIGNIN_SUCCESS);
     });
   });
 

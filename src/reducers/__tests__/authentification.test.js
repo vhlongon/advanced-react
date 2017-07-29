@@ -1,7 +1,6 @@
 import {
-  authUser,
-  changeAuth,
-  unauthUser,
+  signinSuccess,
+  signOut,
   signinFailure
 } from '../../actions/authenticate';
 import authReducer from '../authentication';
@@ -15,9 +14,9 @@ describe('authentication', () => {
   });
 
   describe('when the auth request is good', () => {
-    it('handles action with type AUTH_USER', () => {
+    it('handles action with type SIGNIN_SUCCESS', () => {
       const initialState = {};
-      const action = authUser();
+      const action = signinSuccess();
       const newState = { isAuthenticated: true };
       deepFreeze(initialState);
 
@@ -37,32 +36,12 @@ describe('authentication', () => {
     });
   });
 
-  it('handles action with type UNAUTH_USER', () => {
+  it('handles action with type SIGNOUT', () => {
     const initialState = { isAuthenticated: undefined };
-    const action = unauthUser();
+    const action = signOut();
     const newState = { isAuthenticated: false };
     deepFreeze(initialState);
 
     expect(authReducer(initialState, action)).toEqual(newState);
-  });
-
-  describe('CHANGE_AUTH', () => {
-    it('handles action when not authenticated', () => {
-      const initialState = { isAuthenticated: false };
-      const action = changeAuth();
-      const newState = { isAuthenticated: true };
-      deepFreeze(initialState);
-
-      expect(authReducer(initialState, action)).toEqual(newState);
-    });
-
-    it('handles action when not authenticated', () => {
-      const initialState = { isAuthenticated: true };
-      const action = changeAuth();
-      const newState = { isAuthenticated: false };
-      deepFreeze(initialState);
-
-      expect(authReducer(initialState, action)).toEqual(newState);
-    });
   });
 });

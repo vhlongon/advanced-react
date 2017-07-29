@@ -1,14 +1,9 @@
 import {
-  CHANGE_AUTH,
-  AUTH_USER,
-  UNAUTH_USER,
+  SIGNIN_SUCCESS,
+  SIGNOUT,
   SIGNIN_SUBMIT,
   SIGNIN_FAILURE
 } from './types';
-
-export const changeAuth = () => ({
-  type: CHANGE_AUTH
-});
 
 export const signinSubmit = values => ({
   type: SIGNIN_SUBMIT,
@@ -20,10 +15,10 @@ export const signinFailure = error => ({
   error
 });
 
-export const authUser = () => ({
-  type: AUTH_USER
+export const signinSuccess = () => ({
+  type: SIGNIN_SUCCESS
 });
 
-export const unauthUser = () => ({
-  type: UNAUTH_USER
+export const signOut = () => ({
+  type: SIGNOUT
 });
