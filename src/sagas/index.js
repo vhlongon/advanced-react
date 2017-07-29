@@ -1,42 +1,51 @@
 import { delay } from 'redux-saga';
-import { all, call, select, takeEvery } from 'redux-saga/effects';
-import { CHANGE_AUTH } from '../actions/types';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import axios from 'axios';
+import { CHANGE_AUTH, SIGNIN_SUBMIT, SIGNIN_SUCCESS } from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
+import { authUser, signinFailure } from '../actions/authenticate';
 import { getIsAuthenticated } from '../selectors';
 
-// request config stuff
 const ROOT_URL = 'http://localhost:3090';
 
-const sendData = (data, url) =>
-  new Promise((resolve, reject) => {
-    fetch(url, { method: 'POST', body: data })
-      .then(blob => blob.json())
-      .then(data => resolve(data))
-      .catch(error => reject(error));
-  });
-// if request is good...
-// Update state to indicate user is authenticated
-// Save the JWT token sent back from the server
-// -----
-// if request is bad...
-// Show error message to user
+export const setItemToLocalStorage = token =>
+  window.localStorage && localStorage.setItem('reactAuthToken', token);
+export const removeItemFromLocalStorage = () =>
+  window.localStorage && localStorage.removeItem('reactAuthToken');
 
 export function* authChange() {
   const isAuthenticated = yield select(getIsAuthenticated);
-
   yield delay(500);
-  // const data = new FormData({email, password})
-
   if (isAuthenticated) {
     yield call(history.push, paths.resources);
   }
 }
 
 export function* watchAuthChange() {
-  yield takeEvery(CHANGE_AUTH, authChange);
+  yield takeLatest(CHANGE_AUTH, authChange);
 }
 
-export default function* sagas() {
-  yield all([watchAuthChange()]);
+export function* formSignin({ payload }) {
+  // console.log(payload);
+  try {
+    const result = yield call(axios.post, `${ROOT_URL}/signin`, payload);
+    const { data: { token } } = result;
+    yield token;
+    yield call(setItemToLocalStorage, token);
+    yield put(authUser());
+    yield call(history.push, paths.resources);
+  } catch (error) {
+    //yield call(removeItemFromLocalStorage);
+    const errorMessage = yield 'Bad login info';
+    yield put(signinFailure(errorMessage));
+  }
+}
+
+export function* watchSignin() {
+  yield takeLatest(SIGNIN_SUBMIT, formSignin);
+}
+
+export default function* root() {
+  yield all([watchAuthChange(), watchSignin()]);
 }

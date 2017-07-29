@@ -5,9 +5,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import { addFormSubmitSagaTo } from 'redux-form-submit-saga';
 import App from './components/App';
 import reducers from './reducers';
-import Sagas from './sagas';
+import sagas from './sagas';
 import registerServiceWorker from './registerServiceWorker';
 import theme from './theme';
 import './index.css';
@@ -24,8 +25,8 @@ const store = createStore(
   reducers,
   /* preloadedState, */ composeEnhancers(applyMiddleware(sagaMiddleware))
 );
-
-sagaMiddleware.run(Sagas);
+const rootSaga = addFormSubmitSagaTo(sagas);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>

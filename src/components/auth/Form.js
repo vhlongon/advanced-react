@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import TextField from './TextField';
-import { changeAuth } from '../../actions/authenticate';
 import validate from './validate';
 import { getIsAuthenticated } from '../../selectors';
 
@@ -54,11 +53,11 @@ export const SigninForm = ({
 
 export const formWithRouter = withRouter(
   reduxForm({
-    form: 'syncValidation',
+    form: 'signinForm',
     validate
   })(SigninForm)
 );
 
 const mapStateToProps = getIsAuthenticated;
 
-export default connect(mapStateToProps, { changeAuth })(formWithRouter);
+export default connect(mapStateToProps)(formWithRouter);

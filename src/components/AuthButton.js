@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import { paths } from './Routes';
 
-const handleClick = ({ authenticate, history, isAuthenticated }) => e => {
+const handleClick = ({ signout, history, isAuthenticated }) => e => {
   if (isAuthenticated) {
-    authenticate();
+    signout();
     history.push(paths.home);
   } else {
     history.push(paths.signin);

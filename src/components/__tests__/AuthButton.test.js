@@ -13,7 +13,7 @@ const renderButtonWithThemeProvider = props =>
   ).dive();
 
 describe('AuthButton', () => {
-  const mockAuthenticate = jest.fn(() => () => {});
+  const mockSignout = jest.fn(() => () => {});
   const mockHistoryPush = jest.fn(path => path);
 
   it('renders the sign-in/sign-out button', () => {
@@ -22,26 +22,24 @@ describe('AuthButton', () => {
   });
   describe('when authenticated', () => {
     it('shows Sign out text', () => {
-      const wrapper = shallow(
-        <Button isAuthenticated={true} authenticate={mockAuthenticate} />
-      );
+      const wrapper = shallow(<Button isAuthenticated={true} />);
       expect(wrapper.find(RaisedButton).prop('label')).toBe('Sign out');
     });
 
-    it('calls authentication', () => {
+    it('calls signout', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: true,
-        authenticate: mockAuthenticate,
+        signout: mockSignout,
         history: { push: mockHistoryPush }
       });
       wrapper.find(RaisedButton).props().onTouchTap();
-      expect(mockAuthenticate).toHaveBeenCalled();
+      expect(mockSignout).toHaveBeenCalled();
     });
 
     it('navigates to home', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: true,
-        authenticate: mockAuthenticate,
+        signout: mockSignout,
         history: { push: mockHistoryPush }
       });
       wrapper.find(RaisedButton).props().onTouchTap();
@@ -52,7 +50,7 @@ describe('AuthButton', () => {
   describe('when not authenticated', () => {
     it('shows Sign in text', () => {
       const wrapper = shallow(
-        <Button isAuthenticated={false} authenticate={mockAuthenticate} />
+        <Button isAuthenticated={false} signout={mockSignout} />
       );
       expect(wrapper.find(RaisedButton).prop('label')).toBe('Sign in');
     });
@@ -60,7 +58,7 @@ describe('AuthButton', () => {
     it('navigate to signin', () => {
       const wrapper = renderButtonWithThemeProvider({
         isAuthenticated: false,
-        authenticate: mockAuthenticate,
+        signout: mockSignout,
         history: { push: mockHistoryPush }
       });
 

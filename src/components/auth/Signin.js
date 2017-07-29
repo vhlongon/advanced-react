@@ -1,10 +1,12 @@
 import React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
+import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import Form from './Form';
-import { changeAuth } from '../../actions/authenticate';
+import { signinSubmit } from '../../actions/authenticate';
 import { getIsAuthenticated } from '../../selectors';
+import { SIGNIN_SUBMIT } from '../../actions/types';
 
 const enhance = compose(
   withState('isOpen', 'toggleOpen', true),
@@ -13,16 +15,12 @@ const enhance = compose(
   })
 );
 
-const submitForm = authenticate => values => {
-  authenticate();
-  // authenticate(
-  //   !isAuthenticated,
-  //   () => !isAuthenticated && history.push(paths.resources)
-  // );
+const submitForm = (values, dispatch) => {
+    dispatch(signinSubmit(values));
 };
 
 export const Signin = props => {
-  const { location: { state }, handleTouchTap, isOpen, changeAuth } = props;
+  const { location: { state }, handleTouchTap, isOpen } = props;
   return (
     <div>
       {state &&
@@ -32,13 +30,11 @@ export const Signin = props => {
           message={state.message}
           onActionTouchTap={handleTouchTap}
         />}
-      <Form submitForm={submitForm(changeAuth)} />
+      <Form submitForm={submitForm} />
     </div>
   );
 };
 
 const mapStateToProps = getIsAuthenticated;
 
-export default connect(mapStateToProps, { changeAuth })(
-  enhance(Signin)
-);
+export default connect(mapStateToProps)(enhance(Signin));

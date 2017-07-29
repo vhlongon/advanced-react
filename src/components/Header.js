@@ -4,7 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import StatusBar from './StatusBar';
-import { changeAuth } from '../actions/authenticate';
+import { unauthUser } from '../actions/authenticate';
 import AuthButton from './AuthButton';
 import { paths } from './Routes';
 import { getIsAuthenticated } from '../selectors';
@@ -19,29 +19,23 @@ const barListStyle = {
   maxWidth: '300px'
 };
 
-const BarItems = props => {
-  const { isAuthenticated, authenticate, changeAuth } = props;
-  return (
-    <ul className="header__list" style={barListStyle}>
-      <li className="header__item">
-        <Link to={paths.home}>
-          <RaisedButton label="Home" />
-        </Link>
-      </li>
-      <li className="header__item">
-        <Link to={paths.resources}>
-          <RaisedButton label="Resources" />
-        </Link>
-      </li>
-      <li className="header__item">
-        <AuthButton
-          isAuthenticated={isAuthenticated}
-          authenticate={changeAuth}
-        />
-      </li>
-    </ul>
-  );
-};
+const BarItems = ({ isAuthenticated, changeAuth, unauthUser }) => (
+  <ul className="header__list" style={barListStyle}>
+    <li className="header__item">
+      <Link to={paths.home}>
+        <RaisedButton label="Home" />
+      </Link>
+    </li>
+    <li className="header__item">
+      <Link to={paths.resources}>
+        <RaisedButton label="Resources" />
+      </Link>
+    </li>
+    <li className="header__item">
+      <AuthButton isAuthenticated={isAuthenticated} signout={unauthUser} />
+    </li>
+  </ul>
+);
 
 const appBarStyle = {
   display: 'flex',
@@ -64,4 +58,4 @@ export const Header = props => (
 
 const mapStateToProps = getIsAuthenticated;
 
-export default connect(mapStateToProps, { changeAuth })(Header);
+export default connect(mapStateToProps, { unauthUser })(Header);
