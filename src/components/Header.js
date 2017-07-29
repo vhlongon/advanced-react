@@ -16,7 +16,7 @@ const barListStyle = {
   width: '100%',
   marginTop: '0',
   paddingLeft: '0',
-  maxWidth: '300px'
+  maxWidth: '320px'
 };
 
 const BarItems = ({ isAuthenticated, signOut }) => (

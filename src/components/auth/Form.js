@@ -5,7 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import TextField from './TextField';
 import validate from './validate';
-import { getIsAuthenticated } from '../../selectors';
+import { getSigninError } from '../../selectors';
+import { clearForm } from '../../actions/authenticate';
 
 const formStyle = {
   width: 'calc(100% - 2em)',
@@ -20,7 +21,9 @@ export const SigninForm = ({
   pristine,
   reset,
   submitting,
-  submitForm
+  submitForm,
+  errorMessage,
+  clearForm
 }) => {
   return (
     <form style={formStyle} onSubmit={handleSubmit(submitForm)}>
@@ -31,6 +34,10 @@ export const SigninForm = ({
         label="Password"
         component={TextField}
       />
+      {errorMessage &&
+        <div className="error-message" style={{ color: 'red' }}>
+          <span>{errorMessage}</span>
+        </div>}
       <div>
         <RaisedButton
           type="submit"
@@ -44,20 +51,26 @@ export const SigninForm = ({
           style={{ margin: '.5em' }}
           disabled={pristine || submitting}
           label="Clear"
-          onTouchTap={reset}
+          onTouchTap={() => {
+            clearForm();
+            reset();
+          }}
         />
       </div>
     </form>
   );
 };
 
+const mapStateToProps = getSigninError;
+
 export const formWithRouter = withRouter(
-  reduxForm({
-    form: 'signinForm',
-    validate
-  })(SigninForm)
+  reduxForm(
+    {
+      form: 'signinForm',
+      validate
+    },
+    mapStateToProps
+  )(SigninForm)
 );
 
-const mapStateToProps = getIsAuthenticated;
-
-export default connect(mapStateToProps)(formWithRouter);
+export default connect(mapStateToProps, { clearForm })(formWithRouter);

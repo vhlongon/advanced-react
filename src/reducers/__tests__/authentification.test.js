@@ -17,7 +17,7 @@ describe('authentication', () => {
     it('handles action with type SIGNIN_SUCCESS', () => {
       const initialState = {};
       const action = signinSuccess();
-      const newState = { isAuthenticated: true };
+      const newState = { isAuthenticated: true, error: null };
       deepFreeze(initialState);
 
       expect(authReducer(initialState, action)).toEqual(newState);

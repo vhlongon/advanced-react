@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Field } from 'redux-form';
-import Form, { formWithRouter, SigninForm } from '../Form';
+import Form, { SigninForm } from '../Form';
 import { shallow } from 'enzyme';
 
 const renderSignInFormWithThemeProvider = (
@@ -83,7 +83,8 @@ describe('Form', () => {
     const mockReset = jest.fn();
     it('call the reset function', () => {
       const wrapper = renderSignInFormWithThemeProvider({
-        reset: mockReset
+        reset: mockReset,
+        clearForm: jest.fn()
       });
       const clearButton = wrapper
         .find(RaisedButton)
@@ -91,6 +92,34 @@ describe('Form', () => {
 
       clearButton.props().onTouchTap();
       expect(mockReset).toHaveBeenCalled();
+    });
+    it('dispatches clearForm', () => {
+      const mockClearForm = jest.fn();
+      const wrapper = renderSignInFormWithThemeProvider({
+        reset: mockReset,
+        clearForm: mockClearForm
+      });
+      const clearButton = wrapper
+        .find(RaisedButton)
+        .filterWhere(button => button.prop('label') === 'Clear');
+
+      clearButton.props().onTouchTap();
+      expect(mockClearForm).toHaveBeenCalled();
+    });
+  });
+
+  describe('when there is an error message', () => {
+    it('displays the message', () => {
+      const errorMessage = 'error message';
+      const wrapper = shallow(
+        <SigninForm
+          handleSubmit={jest.fn(fn => fn)}
+          submitForm={jest.fn()}
+          errorMessage={errorMessage}
+        />
+      );
+      expect(wrapper.find('.error-message').length).toBe(1);
+      expect(wrapper.find('.error-message').text()).toBe(errorMessage);
     });
   });
 });

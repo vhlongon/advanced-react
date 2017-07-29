@@ -1,12 +1,10 @@
 import React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
-import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
 import Form from './Form';
 import { signinSubmit } from '../../actions/authenticate';
 import { getIsAuthenticated } from '../../selectors';
-import { SIGNIN_SUBMIT } from '../../actions/types';
 
 const enhance = compose(
   withState('isOpen', 'toggleOpen', true),
@@ -16,7 +14,7 @@ const enhance = compose(
 );
 
 const submitForm = (values, dispatch) => {
-    dispatch(signinSubmit(values));
+  dispatch(signinSubmit(values));
 };
 
 export const Signin = props => {

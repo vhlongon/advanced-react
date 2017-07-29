@@ -1,5 +1,5 @@
 import {
-  CHANGE_AUTH,
+  CLEAR_FORM,
   SIGNIN_SUCCESS,
   SIGNOUT,
   SIGNIN_FAILURE
@@ -9,7 +9,7 @@ const initialState = {};
 export default (state = initialState, action) => {
   switch (action.type) {
     case SIGNIN_SUCCESS: {
-      return { ...state, isAuthenticated: true };
+      return { ...state, isAuthenticated: true, error: null };
     }
     case SIGNOUT: {
       return { ...state, isAuthenticated: false };
@@ -17,8 +17,9 @@ export default (state = initialState, action) => {
     case SIGNIN_FAILURE: {
       return { ...state, error: action.error };
     }
-    case CHANGE_AUTH: {
-      return { ...state, isAuthenticated: !state.isAuthenticated };
+    case CLEAR_FORM: {
+      console.log('CLEAR_FORM');
+      return { ...state, error: null };
     }
     default: {
       return state;

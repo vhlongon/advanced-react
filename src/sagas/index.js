@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { CHANGE_AUTH, SIGNIN_SUBMIT, SIGNIN_SUCCESS } from '../actions/types';
+import { CHANGE_AUTH, SIGNIN_SUBMIT } from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
 import { signinSuccess, signinFailure } from '../actions/authenticate';

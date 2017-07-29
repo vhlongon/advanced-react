@@ -2,7 +2,8 @@ import {
   SIGNIN_SUCCESS,
   SIGNOUT,
   SIGNIN_SUBMIT,
-  SIGNIN_FAILURE
+  SIGNIN_FAILURE,
+  CLEAR_FORM
 } from './types';
 
 export const signinSubmit = values => ({
@@ -22,3 +23,8 @@ export const signinSuccess = () => ({
 export const signOut = () => ({
   type: SIGNOUT
 });
+
+export const clearForm = () => ({
+  type: CLEAR_FORM
+});
+

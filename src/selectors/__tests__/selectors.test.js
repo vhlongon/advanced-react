@@ -1,4 +1,4 @@
-import { plock, getIsAuthenticated } from '../index';
+import { plock, getIsAuthenticated, getSigninError } from '../index';
 
 describe('selectors', () => {
   describe('plock util', () => {
@@ -8,14 +8,14 @@ describe('selectors', () => {
         const obj = {
           prop
         };
-        expect(plock(obj, prop)).toEqual({prop});
+        expect(plock(obj, prop)).toEqual({ prop });
       });
     });
     describe('when prop does not exist in object', () => {
       it('returns undefined', () => {
         const prop = 'prop';
         const obj = {};
-        expect(plock(obj, obj)).toEqual({[prop]: undefined});
+        expect(plock(obj, obj)).toEqual({ [prop]: undefined });
       });
     });
   });
@@ -27,7 +27,7 @@ describe('selectors', () => {
         const state = {
           auth: { isAuthenticated }
         };
-        expect(getIsAuthenticated(state)).toEqual({isAuthenticated});
+        expect(getIsAuthenticated(state)).toEqual({ isAuthenticated });
       });
     });
     describe('when is not authenticated', () => {
@@ -36,7 +36,27 @@ describe('selectors', () => {
         const state = {
           auth: { isAuthenticated }
         };
-        expect(getIsAuthenticated(state)).toEqual({isAuthenticated});
+        expect(getIsAuthenticated(state)).toEqual({ isAuthenticated });
+      });
+    });
+  });
+  describe('getSigninError', () => {
+    describe('when is there is no error ', () => {
+      it('returns undefined', () => {
+        const state = {
+          auth: {}
+        };
+        expect(getSigninError(state)).toEqual({ error: undefined });
+      });
+    });
+
+    describe('when is there is an error ', () => {
+      it('returns the error message', () => {
+        const error = 'error';
+        const state = {
+          auth: { error }
+        };
+        expect(getSigninError(state)).toEqual({ errorMessage: error });
       });
     });
   });
