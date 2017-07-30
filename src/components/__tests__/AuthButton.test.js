@@ -35,16 +35,6 @@ describe('AuthButton', () => {
       wrapper.find(RaisedButton).props().onTouchTap();
       expect(mockSignout).toHaveBeenCalled();
     });
-
-    it('navigates to home', () => {
-      const wrapper = renderButtonWithThemeProvider({
-        isAuthenticated: true,
-        signout: mockSignout,
-        history: { push: mockHistoryPush }
-      });
-      wrapper.find(RaisedButton).props().onTouchTap();
-      expect(mockHistoryPush).toBeCalledWith('/');
-    });
   });
 
   describe('when not authenticated', () => {

@@ -4,7 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import StatusBar from './StatusBar';
-import { signOut } from '../actions/authenticate';
+import { signout } from '../actions/authenticate';
 import AuthButton from './AuthButton';
 import { paths } from './Routes';
 import { getIsAuthenticated } from '../selectors';
@@ -19,7 +19,7 @@ const barListStyle = {
   maxWidth: '320px'
 };
 
-const BarItems = ({ isAuthenticated, signOut }) => (
+const BarItems = ({ isAuthenticated, signout }) => (
   <ul className="header__list" style={barListStyle}>
     <li className="header__item">
       <Link to={paths.home}>
@@ -32,7 +32,7 @@ const BarItems = ({ isAuthenticated, signOut }) => (
       </Link>
     </li>
     <li className="header__item">
-      <AuthButton isAuthenticated={isAuthenticated} signout={signOut} />
+      <AuthButton isAuthenticated={isAuthenticated} signout={signout} />
     </li>
   </ul>
 );
@@ -58,4 +58,4 @@ export const Header = props => (
 
 const mapStateToProps = getIsAuthenticated;
 
-export default connect(mapStateToProps, { signOut })(Header);
+export default connect(mapStateToProps, { signout })(Header);

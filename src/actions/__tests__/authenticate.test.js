@@ -8,15 +8,15 @@ import {
 } from '../types';
 import {
   signinSuccess,
-  signOut,
+  signout,
   signinSubmit,
   signinFailure
 } from '../authenticate';
 
 describe('authenticate actions', () => {
-  describe('signOut', () => {
+  describe('signout', () => {
     it('returns the correct type', () => {
-      expect(signOut().type).toEqual(SIGNOUT);
+      expect(signout().type).toEqual(SIGNOUT);
     });
   });
 

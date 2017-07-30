@@ -1,14 +1,18 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import watchAllSagas, {
-  watchAuthChange,
+  watchSignout,
   watchSignin,
-  authChange,
+  formSignout,
   formSignin,
   setItemToLocalStorage,
   removeItemFromLocalStorage
 } from '../index';
-import { CHANGE_AUTH, SIGNIN_SUBMIT } from '../../actions/types';
-import { signinSuccess, signinFailure } from '../../actions/authenticate';
+import { CHANGE_AUTH, SIGNIN_SUBMIT, SIGNOUT } from '../../actions/types';
+import {
+  signinSuccess,
+  signinFailure,
+  signout
+} from '../../actions/authenticate';
 import history from '../../history';
 
 describe('root saga', () => {
@@ -18,11 +22,11 @@ describe('root saga', () => {
     expect(result.value).not.toBeUndefined();
   });
 
-  describe('watchAuthChange', () => {
-    it('listens to CHANGE_AUTH', () => {
-      const it = watchAuthChange();
+  describe('watchSignout', () => {
+    it('listens to SIGNOUT', () => {
+      const it = watchSignout();
       const result = it.next();
-      expect(result.value).toEqual(takeLatest(CHANGE_AUTH, authChange));
+      expect(result.value).toEqual(takeLatest(SIGNOUT, formSignout));
     });
   });
 
@@ -34,14 +38,17 @@ describe('root saga', () => {
     });
   });
 
-  describe('authChange', () => {
-    it('redirects to /resources when authenticated', () => {
-      const isAuthenticated = true;
-      const it = authChange();
-      it.next();
-      it.next(isAuthenticated);
+  describe('formSignout', () => {
+    it('redirects to /', () => {
+      const it = formSignout();
       const result = it.next();
-      expect(result.value).toEqual(call(history.push, '/resources'));
+      expect(result.value).toEqual(call(history.push, '/'));
+    });
+    it('removes token to localStorage', () => {
+      const it = formSignout();
+      it.next();
+      const result = it.next();
+      expect(result.value).toEqual(call(removeItemFromLocalStorage));
     });
   });
 
@@ -94,7 +101,7 @@ describe('root saga', () => {
   });
 
   describe('when the request is bad', () => {
-    it('dispatched signinFailure', () => {
+    it('dispatches signinFailure', () => {
       const token = 'token';
       const errorMessage = 'error message';
       const error = new Error('error');

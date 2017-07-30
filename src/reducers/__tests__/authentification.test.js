@@ -1,6 +1,6 @@
 import {
   signinSuccess,
-  signOut,
+  signout,
   signinFailure
 } from '../../actions/authenticate';
 import authReducer from '../authentication';
@@ -38,7 +38,7 @@ describe('authentication', () => {
 
   it('handles action with type SIGNOUT', () => {
     const initialState = { isAuthenticated: undefined };
-    const action = signOut();
+    const action = signout();
     const newState = { isAuthenticated: false };
     deepFreeze(initialState);
 

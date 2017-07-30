@@ -20,7 +20,7 @@ export const signinSuccess = () => ({
   type: SIGNIN_SUCCESS
 });
 
-export const signOut = () => ({
+export const signout = () => ({
   type: SIGNOUT
 });
 

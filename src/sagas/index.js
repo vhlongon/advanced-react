@@ -1,33 +1,33 @@
 import { delay } from 'redux-saga';
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { CHANGE_AUTH, SIGNIN_SUBMIT } from '../actions/types';
+import { CHANGE_AUTH, SIGNIN_SUBMIT, SIGNOUT } from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
-import { signinSuccess, signinFailure } from '../actions/authenticate';
+import { signinSuccess, signinFailure, signout } from '../actions/authenticate';
 import { getIsAuthenticated } from '../selectors';
 
 const ROOT_URL = 'http://localhost:3090';
 
+export const getItemFromLocalStorate = () =>
+  window.localStorage && localStorage.getItem('reactAuthToken');
 export const setItemToLocalStorage = token =>
   window.localStorage && localStorage.setItem('reactAuthToken', token);
 export const removeItemFromLocalStorage = () =>
-  window.localStorage && localStorage.removeItem('reactAuthToken');
+  window.localStorage &&
+  getItemFromLocalStorate() &&
+  localStorage.removeItem('reactAuthToken');
 
-export function* authChange() {
-  const isAuthenticated = yield select(getIsAuthenticated);
-  yield delay(500);
-  if (isAuthenticated) {
-    yield call(history.push, paths.resources);
-  }
+export function* formSignout() {
+  yield call(history.push, paths.home);
+  yield call(removeItemFromLocalStorage);
 }
 
-export function* watchAuthChange() {
-  yield takeLatest(CHANGE_AUTH, authChange);
+export function* watchSignout() {
+  yield takeLatest(SIGNOUT, formSignout);
 }
 
 export function* formSignin({ payload }) {
-  // console.log(payload);
   try {
     const result = yield call(axios.post, `${ROOT_URL}/signin`, payload);
     const { data: { token } } = result;
@@ -47,5 +47,5 @@ export function* watchSignin() {
 }
 
 export default function* root() {
-  yield all([watchAuthChange(), watchSignin()]);
+  yield all([watchSignout(), watchSignin()]);
 }

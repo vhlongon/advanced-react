@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
       return { ...state, error: action.error };
     }
     case CLEAR_FORM: {
-      console.log('CLEAR_FORM');
       return { ...state, error: null };
     }
     default: {
