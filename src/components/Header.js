@@ -16,7 +16,7 @@ const barListStyle = {
   width: '100%',
   marginTop: '0',
   paddingLeft: '0',
-  maxWidth: '320px'
+  maxWidth: '400px'
 };
 
 const BarItems = ({ isAuthenticated, signout }) => (
@@ -29,6 +29,11 @@ const BarItems = ({ isAuthenticated, signout }) => (
     <li className="header__item">
       <Link to={paths.resources}>
         <RaisedButton label="Resources" />
+      </Link>
+    </li>
+    <li className="header__item">
+      <Link to={paths.signup}>
+        <RaisedButton label="Signup" />
       </Link>
     </li>
     <li className="header__item">

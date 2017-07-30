@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
-import Form from './Form';
+import SigninForm from './SigninForm';
 import { signinSubmit } from '../../actions/authenticate';
 import { getIsAuthenticated } from '../../selectors';
 
@@ -28,7 +28,7 @@ export const Signin = props => {
           message={state.message}
           onActionTouchTap={handleTouchTap}
         />}
-      <Form submitForm={submitForm} />
+      <SigninForm submitForm={submitForm} />
     </div>
   );
 };

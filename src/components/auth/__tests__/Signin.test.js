@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Signin } from '../Signin';
 import { Link } from 'react-router-dom';
-import SigninForm from '../Form';
+import SigninForm from '../SigninForm';
 import { shallow } from 'enzyme';
 
 const renderSnackbarWithThemeProvider = props =>

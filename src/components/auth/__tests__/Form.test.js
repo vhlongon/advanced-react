@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Field } from 'redux-form';
-import Form, { SigninForm } from '../Form';
+import Form, { SigninForm } from '../SigninForm';
 import { shallow } from 'enzyme';
 
 const renderSignInFormWithThemeProvider = (

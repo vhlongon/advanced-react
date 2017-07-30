@@ -1,22 +1,20 @@
 import React from 'react';
-import {
-  Router,
-  Route,
-  Switch
-} from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
 import Header from './Header';
 import Home from './Home';
 import Resources from './Resources';
 import Signin from './auth/Signin';
+import Signup from './auth/Signup';
 import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
 
 export const paths = {
   signin: '/signin',
+  signup: '/signup',
   resources: '/resources',
   home: '/'
-}
+};
 
 export const Routes = ({ isAuthenticate }) => (
   <Router history={history}>
@@ -32,6 +30,7 @@ export const Routes = ({ isAuthenticate }) => (
           component={Resources}
           message="You need to sign in to view the resources page"
         />
+        <Route path={paths.signup} component={Signup} />
         <Route component={NotFound} />
       </Switch>
     </div>
