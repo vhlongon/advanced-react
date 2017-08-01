@@ -32,8 +32,9 @@ export const signupSuccess = () => ({
   type: SIGNUP_SUCCESS
 });
 
-export const signupFailure = () => ({
-  type: SIGNUP_FAILURE
+export const signupFailure = error => ({
+  type: SIGNUP_FAILURE,
+  error
 });
 
 export const signout = () => ({

@@ -28,41 +28,49 @@ describe('authenticate actions', () => {
 
   describe('signinSuccess', () => {
     it('returns the correct type', () => {
-      expect(signinSuccess().type).toEqual(SIGNIN_SUCCESS);
+      const { type } = signinSuccess();
+      expect(type).toEqual(SIGNIN_SUCCESS);
     });
   });
 
   describe('signinSubmit', () => {
-    it('returns the correct type', () => {
-      expect(signinSubmit().type).toEqual(SIGNIN_SUBMIT);
-    });
-    it('returns the correct type', () => {
+    it('returns the correct type and payload', () => {
       const values = 'values';
-      expect(signinSubmit(values).payload).toEqual(values);
+      const { payload, type } = signinSubmit(values);
+      expect(type).toEqual(SIGNIN_SUBMIT);
+      expect(payload).toEqual(values);
     });
   });
 
   describe('siginFailure', () => {
-    it('returns the correct type', () => {
-      expect(signinFailure().type).toEqual(SIGNIN_FAILURE);
+    it('returns the correct type  and error message', () => {
+      const errorMessage = 'error';
+      const { type, error } = signinFailure(errorMessage);
+      expect(type).toEqual(SIGNIN_FAILURE);
+      expect(error).toEqual(errorMessage);
     });
   });
 
   describe('signupSubmit', () => {
     it('returns the correct type', () => {
-      expect(signupSubmit().type).toEqual(SIGNUP_SUBMIT);
+      const { type } = signupSubmit();
+      expect(type).toEqual(SIGNUP_SUBMIT);
     });
   });
 
   describe('signupSuccess', () => {
     it('returns the correct type', () => {
-      expect(signupSuccess().type).toEqual(SIGNUP_SUCCESS);
+      const { type } = signupSuccess();
+      expect(type).toEqual(SIGNUP_SUCCESS);
     });
   });
 
   describe('signupFailure', () => {
-    it('returns the correct type', () => {
-      expect(signupFailure().type).toEqual(SIGNUP_FAILURE);
+    it('returns the correct type and error message', () => {
+      const errorMessage = 'error';
+      const { type, error } = signupFailure(errorMessage);
+      expect(type).toEqual(SIGNUP_FAILURE);
+      expect(error).toEqual(errorMessage);
     });
   });
 });
