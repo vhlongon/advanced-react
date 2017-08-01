@@ -1,8 +1,11 @@
-import validate from '../signinValidate';
+import validate from '../signupValidate';
 
-const generateInput = ({ email = '', password = '' } = {}) => ({
+const generateInput = (
+  { email = '', password = '', passwordConfirm = '' } = {}
+) => ({
   email,
-  password
+  password,
+  passwordConfirm
 });
 
 describe('validate form', () => {
@@ -10,7 +13,11 @@ describe('validate form', () => {
     it('returns empty for email and password ', () => {
       expect(
         validate(
-          generateInput({ email: 'valid@email.com', password: 'password' })
+          generateInput({
+            email: 'valid@email.com',
+            password: 'password',
+            passwordConfirm: 'password'
+          })
         )
       ).toEqual({
         password: '',
@@ -21,7 +28,11 @@ describe('validate form', () => {
   describe('when input is not valid', () => {
     describe('no email', () => {
       it('returns Required for email', () => {
-        expect(validate(generateInput({ password: 'password' }))).toEqual({
+        expect(
+          validate(
+            generateInput({ password: 'password', passwordConfirm: 'password' })
+          )
+        ).toEqual({
           email: 'Required',
           password: ''
         });
@@ -47,7 +58,11 @@ describe('validate form', () => {
       it('returns invalid email', () => {
         expect(
           validate(
-            generateInput({ email: 'invalid email', password: 'password' })
+            generateInput({
+              email: 'invalid email',
+              password: 'password',
+              passwordConfirm: 'password'
+            })
           )
         ).toEqual({
           email: 'Invalid email',
@@ -56,7 +71,7 @@ describe('validate form', () => {
       });
     });
 
-    describe('invalid (too short) passord', () => {
+    describe('invalid length passord', () => {
       it('returns invalid password', () => {
         expect(
           validate(
@@ -64,6 +79,19 @@ describe('validate form', () => {
           )
         ).toEqual({
           password: 'Must be at least 6',
+          email: ''
+        });
+      });
+    });
+
+    describe('when password and confirm password do not match', () => {
+      it('returns passwords must match', () => {
+        expect(
+          validate(
+            generateInput({ email: 'valid@email.com', password: 'password' })
+          )
+        ).toEqual({
+          password: 'Passwords must match',
           email: ''
         });
       });
