@@ -63,4 +63,17 @@ describe('validateUtils', () => {
       });
     });
   });
+
+  describe('propsMatch', () => {
+    describe('when there is match', () => {
+      it('returns true', () => {
+        expect(utils.propsMatch('1', '1')).toBeTruthy();
+      });
+    });
+    describe('when there is no match', () => {
+      it('returns false', () => {
+        expect(utils.propsMatch('1', '')).toBeFalsy();
+      });
+    });
+  });
 });

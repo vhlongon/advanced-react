@@ -5,7 +5,9 @@ export const isEmailValid = email =>
 
 export const hasMinLength = (prop, minLength) =>
   (prop && prop.length >= minLength ? true : false);
-  
+
 export const hasValue = (obj, prop) => {
   return obj[prop] && obj[prop].length ? true : false;
 };
+
+export const propsMatch = (prop1 = '', prop2 = '') => prop1 === prop2;
