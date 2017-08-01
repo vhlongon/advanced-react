@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import TextField from './TextField';
-import validate from './validate';
+import  validate from './signinValidate';
 import { getSigninError } from '../../selectors';
 import { clearForm } from '../../actions/authenticate';
 

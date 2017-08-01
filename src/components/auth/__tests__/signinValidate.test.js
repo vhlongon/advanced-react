@@ -3,7 +3,7 @@ import validate, {
   hasMinLength,
   hasValue,
   isEmailValid
-} from '../validate';
+} from '../signinValidate';
 
 const generateInput = ({ email = '', password = '' } = {}) => ({
   email,
@@ -13,15 +13,15 @@ const generateInput = ({ email = '', password = '' } = {}) => ({
 describe('validate form', () => {
   describe('when input is valid', () => {
     it('returns empty for email and password ', () => {
-        expect(
-          validate(
-            generateInput({ email: 'valid@email.com', password: 'password' })
-          )
-        ).toEqual({
-          password: '',
-          email: ''
-        });
+      expect(
+        validate(
+          generateInput({ email: 'valid@email.com', password: 'password' })
+        )
+      ).toEqual({
+        password: '',
+        email: ''
       });
+    });
   });
   describe('when input is not valid', () => {
     describe('no email', () => {
@@ -74,6 +74,4 @@ describe('validate form', () => {
       });
     });
   });
-  
-  
 });
