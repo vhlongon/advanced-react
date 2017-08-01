@@ -15,12 +15,17 @@ const barListStyle = {
   justifyContent: 'space-between',
   width: '100%',
   marginTop: '0',
-  paddingLeft: '0',
-  maxWidth: '400px'
+  paddingLeft: '0'
 };
 
 const BarItems = ({ isAuthenticated, signout }) => (
-  <ul className="header__list" style={barListStyle}>
+  <ul
+    className="header__list"
+    style={{
+      ...barListStyle,
+      maxWidth: `${isAuthenticated ? '310px' : '400px'}`
+    }}
+  >
     <li className="header__item">
       <Link to={paths.home}>
         <RaisedButton label="Home" />
@@ -31,11 +36,12 @@ const BarItems = ({ isAuthenticated, signout }) => (
         <RaisedButton label="Resources" />
       </Link>
     </li>
-    <li className="header__item">
-      <Link to={paths.signup}>
-        <RaisedButton label="Signup" />
-      </Link>
-    </li>
+    {!isAuthenticated &&
+      <li className="header__item">
+        <Link to={paths.signup}>
+          <RaisedButton label="Signup" />
+        </Link>
+      </li>}
     <li className="header__item">
       <AuthButton isAuthenticated={isAuthenticated} signout={signout} />
     </li>
