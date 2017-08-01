@@ -1,11 +1,9 @@
-import { delay } from 'redux-saga';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { CHANGE_AUTH, SIGNIN_SUBMIT, SIGNOUT } from '../actions/types';
+import { SIGNIN_SUBMIT, SIGNOUT } from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
-import { signinSuccess, signinFailure, signout } from '../actions/authenticate';
-import { getIsAuthenticated } from '../selectors';
+import { signinSuccess, signinFailure } from '../actions/authenticate';
 
 const ROOT_URL = 'http://localhost:3090';
 
