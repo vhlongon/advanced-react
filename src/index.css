@@ -20,3 +20,20 @@ input:-khtml-autofill {
   -khtml-text-fill-color: #737373;
   -khtml-box-shadow: 0 0 0px 1000px #f3f3f3 inset;
 }
+
+.error-message {
+  animation: fadeScaleIn .3s cubic-bezier(0.23, 1, 0.32, 1) .3ms forwards;
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+@keyframes fadeScaleIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}

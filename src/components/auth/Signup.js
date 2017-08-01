@@ -4,8 +4,8 @@ import { signupSubmit } from '../../actions/authenticate';
 
 const submitForm = (values, dispatch) => {
   dispatch(signupSubmit(values));
-  console.log(values);
 };
+
 const Signup = () => {
   return (
     <div>

@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Field } from 'redux-form';
 import Form, { SignupForm } from '../SignupForm';
+import ErrorMessage from '../../ErrorMessage';
 import { shallow } from 'enzyme';
 
 const renderSignUpFormWithThemeProvider = (
@@ -65,7 +66,8 @@ describe('Form', () => {
     const wrapper = renderSignUpFormWithThemeProvider();
 
     expect(
-      wrapper.find(Field).filterWhere(n => n.prop('name') === 'passwordConfirm').length
+      wrapper.find(Field).filterWhere(n => n.prop('name') === 'passwordConfirm')
+        .length
     ).toBe(1);
   });
 
@@ -120,8 +122,8 @@ describe('Form', () => {
           errorMessage={errorMessage}
         />
       );
-      expect(wrapper.find('.error-message').length).toBe(1);
-      expect(wrapper.find('.error-message').text()).toBe(errorMessage);
+      expect(wrapper.find(ErrorMessage).length).toBe(1);
+      expect(wrapper.find(ErrorMessage).prop('text')).toBe(errorMessage);
     });
   });
 });

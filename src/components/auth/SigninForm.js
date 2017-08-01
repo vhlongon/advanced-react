@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import TextField from './TextField';
-import  validate from './signinValidate';
+import ErrorMessage from '../ErrorMessage';
+import validate from './signinValidate';
 import { getSigninError } from '../../selectors';
 import { clearForm } from '../../actions/authenticate';
 
@@ -34,10 +35,7 @@ export const SigninForm = ({
         label="Password"
         component={TextField}
       />
-      {errorMessage &&
-        <div className="error-message" style={{ color: 'red' }}>
-          <span>{errorMessage}</span>
-        </div>}
+      {errorMessage && <ErrorMessage text={errorMessage} />}
       <div>
         <RaisedButton
           type="submit"

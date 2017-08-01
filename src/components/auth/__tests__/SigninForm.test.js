@@ -4,6 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Field } from 'redux-form';
 import Form, { SigninForm } from '../SigninForm';
+import ErrorMessage from '../../ErrorMessage';
 import { shallow } from 'enzyme';
 
 const renderSignInFormWithThemeProvider = (
@@ -109,7 +110,7 @@ describe('Form', () => {
   });
 
   describe('when there is an error message', () => {
-    it('displays the message', () => {
+    it('displays the error message', () => {
       const errorMessage = 'error message';
       const wrapper = shallow(
         <SigninForm
@@ -118,8 +119,8 @@ describe('Form', () => {
           errorMessage={errorMessage}
         />
       );
-      expect(wrapper.find('.error-message').length).toBe(1);
-      expect(wrapper.find('.error-message').text()).toBe(errorMessage);
+      expect(wrapper.find(ErrorMessage).length).toBe(1);
+      expect(wrapper.find(ErrorMessage).prop('text')).toBe(errorMessage);
     });
   });
 });
