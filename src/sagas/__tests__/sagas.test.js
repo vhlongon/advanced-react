@@ -9,17 +9,14 @@ import watchAllSagas, {
   setItemToLocalStorage,
   removeItemFromLocalStorage
 } from '../index';
-import {
-  SIGNIN_SUBMIT,
-  SIGNUP_SUBMIT,
-  SIGNOUT
-} from '../../actions/types';
+import { SIGNIN_SUBMIT, SIGNUP_SUBMIT, SIGNOUT } from '../../actions/types';
 import {
   signinSuccess,
   signinFailure,
   signupSuccess,
   signupFailure,
-  signout
+  signout,
+  clearForm
 } from '../../actions/authenticate';
 import history from '../../history';
 
@@ -62,8 +59,7 @@ describe('root saga', () => {
         const payload = { email: 'email', passord: 'password' };
         const it = formSignin({ payload });
         it.next();
-        it.next(res);
-        const result = it.next();
+        const result = it.next(res);
         expect(result.value).toEqual(call(setItemToLocalStorage, token));
       });
 
@@ -78,7 +74,6 @@ describe('root saga', () => {
         });
         it.next();
         it.next(res);
-        it.next();
         const result = it.next();
         expect(result.value).toEqual(put(signinSuccess()));
       });
@@ -94,7 +89,6 @@ describe('root saga', () => {
         });
         it.next();
         it.next(res);
-        it.next();
         it.next();
         const result = it.next();
         expect(result.value).toEqual(call(history.push, '/resources'));
@@ -113,66 +107,86 @@ describe('root saga', () => {
         const result = it.next(errorMessage);
         expect(result.value).toEqual(put(signinFailure(errorMessage)));
       });
-    });
-  });
-
-  describe('formSignup', () => {
-    describe('when the request goes through', () => {
-      xit('saves token to localStorage', () => {
-        const token = 'token';
-        const res = { data: { token } };
-        const payload = { email: 'email', passord: 'password' };
-        const it = formSignup({ payload });
-        it.next();
-        it.next(res);
-        const result = it.next();
-        expect(result.value).toEqual(call(setItemToLocalStorage, token));
-      });
-
-      xit('dispaches signupSuccess', () => {
-        const token = 'token';
-        const res = { data: { token } };
-        const payload = { email: 'email', passord: 'password' };
-        const it = formSignup({
-          payload,
-          resolve: jest.fn(),
-          reject: jest.fn()
-        });
-        it.next();
-        it.next(res);
-        it.next();
-        const result = it.next();
-        expect(result.value).toEqual(put(signupSuccess()));
-      });
-
-      xit('redirects to /resources', () => {
-        const token = 'token';
-        const res = { data: { token } };
-        const payload = { email: 'email', passord: 'password' };
-        const it = formSignup({
-          payload,
-          resolve: jest.fn(),
-          reject: jest.fn()
-        });
-        it.next();
-        it.next(res);
-        it.next();
-        it.next();
-        const result = it.next();
-        expect(result.value).toEqual(call(history.push, '/resources'));
-      });
-    });
-    describe('when the request is bad', () => {
-      xit('dispatches signupFailure', () => {
-        const token = 'token';
+      it('dispatches clearForm', () => {
         const errorMessage = 'error message';
         const error = new Error('error');
         const payload = { email: 'bad email', passord: 'bad password' };
         const it = formSignin({ payload });
         it.next();
         it.next(error);
-        const result = it.next(errorMessage);
+        it.next();
+        it.next();
+        const result = it.next();
+        expect(result.value).toEqual(put(clearForm()));
+      });
+    });
+  });
+
+  describe('formSignup', () => {
+    describe('when the request goes through', () => {
+      it('saves token to localStorage', () => {
+        const token = 'token';
+        const res = { data: { token } };
+        const payload = { email: 'email', passord: 'password' };
+        const it = formSignup({ payload });
+        it.next();
+        const result = it.next(res);
+        expect(result.value).toEqual(call(setItemToLocalStorage, token));
+      });
+
+      it('dispaches signupSuccess', () => {
+        const token = 'token';
+        const res = { data: { token } };
+        const payload = { email: 'email', passord: 'password' };
+        const it = formSignup({
+          payload,
+          resolve: jest.fn(),
+          reject: jest.fn()
+        });
+        it.next();
+        it.next(res);
+        const result = it.next();
+        expect(result.value).toEqual(put(signupSuccess()));
+      });
+
+      it('redirects to /resources', () => {
+        const token = 'token';
+        const res = { data: { token } };
+        const payload = { email: 'email', passord: 'password' };
+        const it = formSignup({
+          payload,
+          resolve: jest.fn(),
+          reject: jest.fn()
+        });
+        it.next();
+        it.next(res);
+        it.next();
+        const result = it.next();
+        expect(result.value).toEqual(call(history.push, '/resources'));
+      });
+    });
+    describe('when the request is bad', () => {
+      it('dispatches signupFailure', () => {
+        const errorMessage = 'error message';
+        const error = new Error('error');
+        const payload = { email: 'bad email', passord: 'bad password' };
+        const it = formSignup({ payload });
+        it.next();
+        it.next(error);
+        const result = it.next({ response: { data: errorMessage } });
         expect(result.value).toEqual(put(signupFailure(errorMessage)));
+      });
+      it('dispatches clearForm', () => {
+        const errorMessage = 'error message';
+        const error = new Error('error');
+        const payload = { email: 'bad email', passord: 'bad password' };
+        const it = formSignup({ payload });
+        it.next();
+        it.next(error);
+        it.next({ response: { data: errorMessage } });
+        it.next();
+        const result = it.next();
+        expect(result.value).toEqual(put(clearForm()));
       });
     });
   });
