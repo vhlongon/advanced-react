@@ -3,6 +3,9 @@ import {
   SIGNOUT,
   SIGNIN_SUBMIT,
   SIGNIN_FAILURE,
+  SIGNUP_SUBMIT,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   CLEAR_FORM
 } from './types';
 
@@ -11,13 +14,26 @@ export const signinSubmit = values => ({
   payload: values
 });
 
+export const signinSuccess = () => ({
+  type: SIGNIN_SUCCESS
+});
+
 export const signinFailure = error => ({
   type: SIGNIN_FAILURE,
   error
 });
 
-export const signinSuccess = () => ({
-  type: SIGNIN_SUCCESS
+export const signupSubmit = values => ({
+  type: SIGNUP_SUBMIT,
+  payload: values
+});
+
+export const signupSuccess = () => ({
+  type: SIGNUP_SUCCESS
+});
+
+export const signupFailure = () => ({
+  type: SIGNUP_FAILURE
 });
 
 export const signout = () => ({
@@ -27,4 +43,3 @@ export const signout = () => ({
 export const clearForm = () => ({
   type: CLEAR_FORM
 });
-

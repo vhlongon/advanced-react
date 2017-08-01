@@ -13,7 +13,7 @@ describe('authentication', () => {
     expect(authReducer(initialState, {})).toEqual(initialState);
   });
 
-  describe('when the auth request is good', () => {
+  describe('when the signin request is good', () => {
     it('handles action with type SIGNIN_SUCCESS', () => {
       const initialState = {};
       const action = signinSuccess();
@@ -24,7 +24,7 @@ describe('authentication', () => {
     });
   });
 
-  describe('when the auth request is bad', () => {
+  describe('when the signin request is bad', () => {
     it('handles action with type SIGNIN_FAILURE', () => {
       const error = 'error';
       const initialState = {};

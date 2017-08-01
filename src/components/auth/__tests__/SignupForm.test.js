@@ -70,14 +70,8 @@ describe('Form', () => {
   });
 
   describe('when click on submit', () => {
-    it('toggle authentication status and redirect to /resources', () => {
-      const isAuthenticated = false;
+    it('submitForm is called', () => {
       const mockSubmit = jest.fn(() => () => {});
-      const props = {
-        isAuthenticated,
-        submitForm: mockSubmit,
-        onSubmit: jest.fn()
-      };
       const wrapper = shallow(
         <SignupForm handleSubmit={jest.fn(fn => fn)} submitForm={mockSubmit} />
       );

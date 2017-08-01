@@ -3,4 +3,7 @@ export const SIGNOUT = 'signout';
 export const SIGNIN_SUBMIT = 'signin_submit';
 export const SIGNIN_SUCCESS = 'signin_success';
 export const SIGNIN_FAILURE = 'signin_failure';
+export const SIGNUP_SUBMIT = 'signup_submit';
+export const SIGNUP_SUCCESS = 'signup_success';
+export const SIGNUP_FAILURE = 'signup_failure';
 export const CLEAR_FORM = 'clear_form';
