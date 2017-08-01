@@ -1,6 +1,6 @@
 const User = require('../models/user');
 
-const getUsersDetails = ({ _id, email, name }) => ({ id: _id, email, name });
+const getUsersDetails = ({ _id, email }) => ({ id: _id, email });
 
 module.exports = (req, res, next) => {
   User.find({}).exec().then(

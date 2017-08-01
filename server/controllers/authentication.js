@@ -11,12 +11,12 @@ const createUserToken = user => {
 };
 
 exports.signup = (req, res, next) => {
-  const { body: { email, password, name } } = req;
+  const { body: { email, password } } = req;
 
-  if (!email || !password || !name) {
+  if (!email || !password) {
     return res
       .status(422)
-      .send({ error: 'You must provide all fields: email, password and name' });
+      .send({ error: 'You must provide all fields: email, password' });
   }
   // check if a user with the given email exists
   User.findOne({ email }).exec().then(
@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
         return res.status(422).send({ error: 'Email is in use' });
       }
       // if a user with email does NOT exist, create and save user record
-      const user = new User({ email, password, name });
+      const user = new User({ email, password });
       // respond to request indicating the user was created
       // and send the token to the user
       user.save().then(() => res.json({ token: createUserToken(user) }));
