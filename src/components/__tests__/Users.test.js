@@ -1,6 +1,7 @@
 import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
+import ErrorMessage from '../ErrorMessage';
+
 import {
   Users,
   renderTileTitle,
@@ -56,6 +57,15 @@ describe('Users', () => {
           expect(tile.prop('actionIcon')).toEqual(renderActionIcon());
         });
       });
+    });
+  });
+
+  describe('when there is an error', () => {
+    it('displays error message', () => {
+      const error = 'error';
+      const wrapper = shallow(<Users error={error} />);
+      expect(wrapper.find(ErrorMessage).length).toBe(1);
+      expect(wrapper.find(ErrorMessage).prop('text')).toBe(error);
     });
   });
 });

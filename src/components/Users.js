@@ -6,13 +6,23 @@ import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Mail from 'material-ui/svg-icons/communication/contact-mail';
 import Person from 'material-ui/svg-icons/social/person';
+import ErrorMessage from './ErrorMessage';
 import { fetchUsersRequest } from '../actions/fetchUsers';
 import { getUsersData } from '../selectors';
+
+const usersStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '600px',
+  width: '100%'
+};
 
 const gridStyle = {
   display: 'flex',
   margin: '1em auto',
-  maxWidth: '800px'
+  maxWidth: '800px',
+  width: '100%'
 };
 
 const tileImgStyle = {
@@ -52,23 +62,25 @@ export const renderActionIcon = () => (
 );
 
 export const Users = props => {
-  const { data, cols, cellHeight } = props;
+  const { data, cols, cellHeight, error } = props;
   return (
-    <div className="users">
-      <GridList style={gridStyle} cols={cols} cellHeight={cellHeight}>
-        {data &&
-          data.map(({ email, id }, index) => (
-            <GridTile
-              title={renderTileTitle(email)}
-              subtitle={renderTileSubTitle(id)}
-              key={index}
-              titleBackground="rgba(255,255,255,0.15)"
-              actionIcon={renderActionIcon()}
-            >
-              <img style={tileImgStyle} />
-            </GridTile>
-          ))}
-      </GridList>
+    <div className="users" style={usersStyle}>
+      {error
+        ? <ErrorMessage text={error} />
+        : <GridList style={gridStyle} cols={cols} cellHeight={cellHeight}>
+            {data &&
+              data.map(({ email, id }, index) => (
+                <GridTile
+                  title={renderTileTitle(email)}
+                  subtitle={renderTileSubTitle(id)}
+                  key={index}
+                  titleBackground="rgba(255,255,255,0.15)"
+                  actionIcon={renderActionIcon()}
+                >
+                  <img style={tileImgStyle} />
+                </GridTile>
+              ))}
+          </GridList>}
     </div>
   );
 };
