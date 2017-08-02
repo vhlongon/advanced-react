@@ -7,7 +7,11 @@ import {
   SIGNUP_FAILURE
 } from '../actions/types';
 
-const initialState = {};
+const initialState = {
+  isAuthenticated: false,
+  error: null
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case SIGNIN_SUCCESS:

@@ -9,6 +9,7 @@ import { addFormSubmitSagaTo } from 'redux-form-submit-saga';
 import App from './components/App';
 import reducers from './reducers';
 import sagas from './sagas';
+import { getItemFromLocalStorate } from './sagas/utils';
 import registerServiceWorker from './registerServiceWorker';
 import theme from './theme';
 import './index.css';
@@ -21,9 +22,15 @@ injectTapEventPlugin();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
+const preloadedState = {
+  auth: {
+    isAuthenticated: getItemFromLocalStorate ? true : null
+  }
+};
 const store = createStore(
   reducers,
-  /* preloadedState, */ composeEnhancers(applyMiddleware(sagaMiddleware))
+  preloadedState,
+  composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 const rootSaga = addFormSubmitSagaTo(sagas);
 sagaMiddleware.run(rootSaga);

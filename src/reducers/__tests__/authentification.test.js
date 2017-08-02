@@ -17,7 +17,7 @@ describe('authentication', () => {
 
   describe('when the signin request is good', () => {
     it('handles action with type SIGNIN_SUCCESS', () => {
-      const initialState = {};
+      const initialState = { isAuthenticated: false, error: null };
       const action = signinSuccess();
       const newState = { isAuthenticated: true, error: null };
       deepFreeze(initialState);
@@ -29,9 +29,9 @@ describe('authentication', () => {
   describe('when the signin request is bad', () => {
     it('handles action with type SIGNIN_FAILURE', () => {
       const error = 'error';
-      const initialState = {};
+      const initialState = { isAuthenticated: false, error: null };
       const action = signinFailure(error);
-      const newState = { error };
+      const newState = { isAuthenticated: false, error };
       deepFreeze(initialState);
 
       expect(authReducer(initialState, action)).toEqual(newState);
@@ -40,7 +40,7 @@ describe('authentication', () => {
 
   describe('when the signup request is good', () => {
     it('handles action with type SIGNUP_SUCCESS', () => {
-      const initialState = {};
+      const initialState = { isAuthenticated: false, error: null };
       const action = signupSuccess();
       const newState = { isAuthenticated: true, error: null };
       deepFreeze(initialState);
@@ -52,9 +52,9 @@ describe('authentication', () => {
   describe('when the signup request is bad', () => {
     it('handles action with type SIGNUP_FAILURE', () => {
       const error = 'error';
-      const initialState = {};
+      const initialState = { isAuthenticated: false, error: null };
       const action = signupFailure(error);
-      const newState = { error };
+      const newState = { isAuthenticated: false, error };
       deepFreeze(initialState);
 
       expect(authReducer(initialState, action)).toEqual(newState);
