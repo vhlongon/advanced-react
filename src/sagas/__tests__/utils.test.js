@@ -30,7 +30,7 @@ describe('localStorage utils', () => {
       });
     });
     describe('when the given item does not exist', () => {
-      it('returns its value', () => {
+      it('returns falsy', () => {
         expect(utils.getItemFromLocalStorate('item', mockStore)).toBeFalsy();
       });
     });
