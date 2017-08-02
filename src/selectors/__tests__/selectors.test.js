@@ -1,4 +1,9 @@
-import { plock, getIsAuthenticated, getSigninError } from '../index';
+import {
+  plock,
+  getIsAuthenticated,
+  getSigninError,
+  getUsersData
+} from '../index';
 
 describe('selectors', () => {
   describe('plock util', () => {
@@ -8,7 +13,7 @@ describe('selectors', () => {
         const obj = {
           prop
         };
-        expect(plock(obj, prop)).toEqual({ prop });
+        expect(plock(obj, { name: prop })).toEqual({ prop });
       });
     });
     describe('when prop does not exist in object', () => {
@@ -57,6 +62,18 @@ describe('selectors', () => {
           auth: { error }
         };
         expect(getSigninError(state)).toEqual({ errorMessage: error });
+      });
+    });
+  });
+
+  describe('getUsersData', () => {
+    describe('when there is an error after fetching data', () => {
+      it('returns the error and now data', () => {
+        const error = 'error';
+        const state = {
+          users: { data: [], error }
+        };
+        expect(getUsersData(state)).toEqual({ data: [], error });
       });
     });
   });
