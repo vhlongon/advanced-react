@@ -1,5 +1,5 @@
 export const storageItem = 'reactAuthToken';
-const localStore = window.localStorage;
+const localStorage = window.localStorage;
 
 export const getItemFromLocalStorate = (
   key = storageItem,
