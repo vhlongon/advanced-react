@@ -1,8 +1,17 @@
 import { delay } from 'redux-saga';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { removeItemFromLocalStorage, setItemToLocalStorage } from './utils';
+import {
+  getItemFromLocalStorate,
+  removeItemFromLocalStorage,
+  setItemToLocalStorage
+} from './utils';
 import axios from 'axios';
-import { SIGNIN_SUBMIT, SIGNUP_SUBMIT, SIGNOUT } from '../actions/types';
+import {
+  SIGNIN_SUBMIT,
+  SIGNUP_SUBMIT,
+  SIGNOUT,
+  FETCH_USERS_REQUEST
+} from '../actions/types';
 import history from '../history';
 import { paths } from '../components/Routes';
 import {
@@ -13,6 +22,7 @@ import {
   clearFormError
 } from '../actions/authenticate';
 
+import { fetchUsersSuccess, fetchUsersFailure } from '../actions/fetchUsers';
 const ROOT_URL = 'http://localhost:3090';
 
 export function* formSignout() {
@@ -32,9 +42,9 @@ export function* formSignin({ payload }) {
     yield put(signinSuccess());
     yield call(history.push, paths.resources);
   } catch (error) {
-    const errorMessage = yield 'Bad login info';
-    yield put(signinFailure(errorMessage));
-    yield delay(1500);
+    const { response: { data } } = error;
+    yield put(signinFailure(data));
+    yield delay(1800);
     yield put(clearFormError());
   }
 }
@@ -47,10 +57,24 @@ export function* formSignup({ payload }) {
     yield put(signupSuccess());
     yield call(history.push, paths.resources);
   } catch (error) {
-    const { response: { data } } = yield error;
+    const { response: { data } } = error;
     yield put(signupFailure(data));
-    yield delay(1500);
+    yield delay(1800);
     yield put(clearFormError());
+  }
+}
+
+export function* usersFetch() {
+  const requestOptions = {
+    headers: { authorization: getItemFromLocalStorate() }
+  };
+  try {
+    const result = yield call(axios.get, `${ROOT_URL}/users`, requestOptions);
+    const { data } = result;
+    yield put(fetchUsersSuccess(data));
+  } catch (error) {
+    const { response: { data } } = error;
+    yield put(fetchUsersFailure(data));
   }
 }
 
@@ -62,6 +86,9 @@ export function* watchSignup() {
   yield takeLatest(SIGNUP_SUBMIT, formSignup);
 }
 
+export function* watchFetchUsers() {
+  yield takeLatest(FETCH_USERS_REQUEST, usersFetch);
+}
 export default function* root() {
-  yield all([watchSignout(), watchSignin(), watchSignup()]);
+  yield all([watchSignout(), watchSignin(), watchSignup(), watchFetchUsers()]);
 }
