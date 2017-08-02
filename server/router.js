@@ -12,7 +12,7 @@ const requireSignin = passport.authenticate('local', { session: false});
 
 module.exports = app => {
   // app.get('/', requireAuth, index);
-  app.get('/', index);
+  app.get('/', requireSignin, index);
   app.post('/signup', signup);
   app.post('/signin', requireSignin, signin);
   app.get('/users', users);
