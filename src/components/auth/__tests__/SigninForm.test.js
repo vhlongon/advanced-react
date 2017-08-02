@@ -63,7 +63,7 @@ describe('Form', () => {
   });
 
   describe('when click on submit', () => {
-    it('toggle authentication status and redirect to /resources', () => {
+    it('toggle authentication status and redirect to /users', () => {
       const isAuthenticated = false;
       const mockSubmit = jest.fn(() => () => {});
       const props = {

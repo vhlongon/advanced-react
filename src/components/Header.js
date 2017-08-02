@@ -32,8 +32,8 @@ const BarItems = ({ isAuthenticated, signout }) => (
       </Link>
     </li>
     <li className="header__item">
-      <Link to={paths.resources}>
-        <RaisedButton label="Resources" />
+      <Link to={paths.users}>
+        <RaisedButton label="Users" />
       </Link>
     </li>
     {!isAuthenticated &&

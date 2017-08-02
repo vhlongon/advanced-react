@@ -25,9 +25,9 @@ describe('Header', () => {
           1
         );
       });
-      it('renders a link to resources', () => {
+      it('renders a link to users', () => {
         expect(
-          Links.find(({ node }) => node.props['to'] === '/resources').length
+          Links.find(({ node }) => node.props['to'] === '/users').length
         ).toBe(1);
       });
 

@@ -3,12 +3,19 @@ import watchAllSagas, {
   watchSignout,
   watchSignin,
   watchSignup,
+  watchFetchUsers,
   formSignout,
   formSignin,
-  formSignup
+  formSignup,
+  usersFetch
 } from '../index';
 import { setItemToLocalStorage, removeItemFromLocalStorage } from '../utils';
-import { SIGNIN_SUBMIT, SIGNUP_SUBMIT, SIGNOUT } from '../../actions/types';
+import {
+  SIGNIN_SUBMIT,
+  SIGNUP_SUBMIT,
+  SIGNOUT,
+  FETCH_USERS_REQUEST
+} from '../../actions/types';
 import {
   signinSuccess,
   signinFailure,
@@ -17,6 +24,8 @@ import {
   signout,
   clearFormError
 } from '../../actions/authenticate';
+
+import { fetchUsersSuccess, fetchUsersFailure } from '../../actions/fetchUsers';
 import history from '../../history';
 
 describe('root saga', () => {
@@ -50,6 +59,14 @@ describe('root saga', () => {
     });
   });
 
+  describe('watchFetchUsers', () => {
+    it('listens to FETCH_USERS_REQUEST', () => {
+      const it = watchFetchUsers();
+      const result = it.next();
+      expect(result.value).toEqual(takeLatest(FETCH_USERS_REQUEST, usersFetch));
+    });
+  });
+
   describe('formSignin', () => {
     describe('when the request goes through', () => {
       it('saves token to localStorage', () => {
@@ -67,9 +84,7 @@ describe('root saga', () => {
         const res = { data: { token } };
         const payload = { email: 'email', passord: 'password' };
         const it = formSignin({
-          payload,
-          resolve: jest.fn(),
-          reject: jest.fn()
+          payload
         });
         it.next();
         it.next(res);
@@ -77,43 +92,38 @@ describe('root saga', () => {
         expect(result.value).toEqual(put(signinSuccess()));
       });
 
-      it('redirects to /resources', () => {
+      it('redirects to /users', () => {
         const token = 'token';
         const res = { data: { token } };
         const payload = { email: 'email', passord: 'password' };
         const it = formSignin({
-          payload,
-          resolve: jest.fn(),
-          reject: jest.fn()
+          payload
         });
         it.next();
         it.next(res);
         it.next();
         const result = it.next();
-        expect(result.value).toEqual(call(history.push, '/resources'));
+        expect(result.value).toEqual(call(history.push, '/users'));
       });
     });
 
     describe('when the request is bad', () => {
       it('dispatches signinFailure', () => {
-        const token = 'token';
         const errorMessage = 'error message';
-        const error = new Error('error');
+        const error = { response: { data: errorMessage } };
         const payload = { email: 'bad email', passord: 'bad password' };
         const it = formSignin({ payload });
         it.next();
-        it.next(error);
-        const result = it.next(errorMessage);
+        const result = it.throw(error);
         expect(result.value).toEqual(put(signinFailure(errorMessage)));
       });
       it('dispatches clearFormError', () => {
         const errorMessage = 'error message';
-        const error = new Error('error');
+        const error = { response: { data: errorMessage } };
         const payload = { email: 'bad email', passord: 'bad password' };
         const it = formSignin({ payload });
         it.next();
-        it.next(error);
-        it.next();
+        it.throw(error);
         it.next();
         const result = it.next();
         expect(result.value).toEqual(put(clearFormError()));
@@ -138,9 +148,7 @@ describe('root saga', () => {
         const res = { data: { token } };
         const payload = { email: 'email', passord: 'password' };
         const it = formSignup({
-          payload,
-          resolve: jest.fn(),
-          reject: jest.fn()
+          payload
         });
         it.next();
         it.next(res);
@@ -148,41 +156,37 @@ describe('root saga', () => {
         expect(result.value).toEqual(put(signupSuccess()));
       });
 
-      it('redirects to /resources', () => {
+      it('redirects to /users', () => {
         const token = 'token';
         const res = { data: { token } };
         const payload = { email: 'email', passord: 'password' };
         const it = formSignup({
-          payload,
-          resolve: jest.fn(),
-          reject: jest.fn()
+          payload
         });
         it.next();
         it.next(res);
         it.next();
         const result = it.next();
-        expect(result.value).toEqual(call(history.push, '/resources'));
+        expect(result.value).toEqual(call(history.push, '/users'));
       });
     });
     describe('when the request is bad', () => {
       it('dispatches signupFailure', () => {
         const errorMessage = 'error message';
-        const error = new Error('error');
+        const error = { response: { data: errorMessage } };
         const payload = { email: 'bad email', passord: 'bad password' };
         const it = formSignup({ payload });
         it.next();
-        it.next(error);
-        const result = it.next({ response: { data: errorMessage } });
+        const result = it.throw(error);
         expect(result.value).toEqual(put(signupFailure(errorMessage)));
       });
       it('dispatches clearFormError', () => {
         const errorMessage = 'error message';
-        const error = new Error('error');
+        const error = { response: { data: errorMessage } };
         const payload = { email: 'bad email', passord: 'bad password' };
         const it = formSignup({ payload });
         it.next();
-        it.next(error);
-        it.next({ response: { data: errorMessage } });
+        it.throw(error);
         it.next();
         const result = it.next();
         expect(result.value).toEqual(put(clearFormError()));
@@ -201,6 +205,29 @@ describe('root saga', () => {
       it.next();
       const result = it.next();
       expect(result.value).toEqual(call(removeItemFromLocalStorage));
+    });
+  });
+
+  describe('usersFetch', () => {
+    describe('when the request goes through', () => {
+      it('dispatches fetchUsersSuccess', () => {
+        const data = 'data';
+        const res = { data };
+        const it = usersFetch();
+        it.next();
+        const result = it.next(res);
+        expect(result.value).toEqual(put(fetchUsersSuccess(data)));
+      });
+    });
+    describe('when the request is bad', () => {
+      it('dispatches fetchUsersFailure', () => {
+        const errorMessage = 'error message';
+        const error = { response: { data: errorMessage } };
+        const it = usersFetch();
+        it.next();
+        const result = it.throw(error);
+        expect(result.value).toEqual(put(fetchUsersFailure(errorMessage)));
+      });
     });
   });
 });

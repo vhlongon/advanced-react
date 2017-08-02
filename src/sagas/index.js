@@ -40,7 +40,7 @@ export function* formSignin({ payload }) {
     const { data: { token } } = result;
     yield call(setItemToLocalStorage, token);
     yield put(signinSuccess());
-    yield call(history.push, paths.resources);
+    yield call(history.push, paths.users);
   } catch (error) {
     const { response: { data } } = error;
     yield put(signinFailure(data));
@@ -55,7 +55,7 @@ export function* formSignup({ payload }) {
     const { data: { token } } = result;
     yield call(setItemToLocalStorage, token);
     yield put(signupSuccess());
-    yield call(history.push, paths.resources);
+    yield call(history.push, paths.users);
   } catch (error) {
     const { response: { data } } = error;
     yield put(signupFailure(data));

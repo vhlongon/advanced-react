@@ -2,7 +2,7 @@ import React from 'react';
 import PrivateRoute, { renderComponentWithConfig } from '../PrivateRoute';
 import { Redirect } from 'react-router-dom';
 import { shallow } from 'enzyme';
-import Resources from '../Resources';
+import Users from '../Users';
 
 describe('PrivateRouter', () => {
   it('renders a Route', () => {

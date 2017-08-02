@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes } from '../Routes';
 import Home from '../Home';
-import Resources from '../Resources';
+import Users from '../Users';
 import Signin from '../auth/Signin';
 import Signup from '../auth/Signup';
 import NotFound from '../NotFound';
@@ -30,9 +30,9 @@ describe('App', () => {
     );
   });
 
-  it('renders a Resources route', () => {
+  it('renders a Users route', () => {
     expect(
-      routes.filter(({ component }) => component === Resources).length
+      routes.filter(({ component }) => component === Users).length
     ).toBe(1);
   });
 
