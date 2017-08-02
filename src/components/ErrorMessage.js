@@ -6,7 +6,6 @@ const style = {
   width: 'calc(256px - 1em)',
   height: 'calc(48px - 1em)',
   margin: '.5em',
-  display: 'inline-block',
   position: 'relative',
   backgroundColor: '#f6e0e1',
   color: '#905350',

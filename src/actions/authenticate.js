@@ -6,7 +6,7 @@ import {
   SIGNUP_SUBMIT,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
-  CLEAR_FORM
+  CLEAR_FORM_ERROR
 } from './types';
 
 export const signinSubmit = values => ({
@@ -41,6 +41,6 @@ export const signout = () => ({
   type: SIGNOUT
 });
 
-export const clearForm = () => ({
-  type: CLEAR_FORM
+export const clearFormError = () => ({
+  type: CLEAR_FORM_ERROR
 });

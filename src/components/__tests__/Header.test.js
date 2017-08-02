@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import { Header } from '../Header';
-import AuthButton from '../AuthButton';
+import SignInOutButton from '../SignInOutButton';
 import { Link } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
@@ -31,8 +31,8 @@ describe('Header', () => {
         ).toBe(1);
       });
 
-      it('renders a AuthButton', () => {
-        expect(wrapper.find(AuthButton).length).toBe(1);
+      it('renders a SignInOutButton', () => {
+        expect(wrapper.find(SignInOutButton).length).toBe(1);
       });
     });
 

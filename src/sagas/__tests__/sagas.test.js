@@ -16,7 +16,7 @@ import {
   signupSuccess,
   signupFailure,
   signout,
-  clearForm
+  clearFormError
 } from '../../actions/authenticate';
 import history from '../../history';
 
@@ -107,7 +107,7 @@ describe('root saga', () => {
         const result = it.next(errorMessage);
         expect(result.value).toEqual(put(signinFailure(errorMessage)));
       });
-      it('dispatches clearForm', () => {
+      it('dispatches clearFormError', () => {
         const errorMessage = 'error message';
         const error = new Error('error');
         const payload = { email: 'bad email', passord: 'bad password' };
@@ -117,7 +117,7 @@ describe('root saga', () => {
         it.next();
         it.next();
         const result = it.next();
-        expect(result.value).toEqual(put(clearForm()));
+        expect(result.value).toEqual(put(clearFormError()));
       });
     });
   });
@@ -176,7 +176,7 @@ describe('root saga', () => {
         const result = it.next({ response: { data: errorMessage } });
         expect(result.value).toEqual(put(signupFailure(errorMessage)));
       });
-      it('dispatches clearForm', () => {
+      it('dispatches clearFormError', () => {
         const errorMessage = 'error message';
         const error = new Error('error');
         const payload = { email: 'bad email', passord: 'bad password' };
@@ -186,7 +186,7 @@ describe('root saga', () => {
         it.next({ response: { data: errorMessage } });
         it.next();
         const result = it.next();
-        expect(result.value).toEqual(put(clearForm()));
+        expect(result.value).toEqual(put(clearFormError()));
       });
     });
   });

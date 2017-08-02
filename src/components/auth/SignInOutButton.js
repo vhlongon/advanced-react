@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
-import { paths } from './Routes';
+import { paths } from '../Routes';
 
 const handleClick = ({ signout, history, isAuthenticated }) => e => {
   if (isAuthenticated) {

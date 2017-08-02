@@ -7,7 +7,7 @@ import TextField from './TextField';
 import ErrorMessage from '../ErrorMessage';
 import validate from './signinValidate';
 import { getSigninError } from '../../selectors';
-import { clearForm } from '../../actions/authenticate';
+import { clearFormError } from '../../actions/authenticate';
 
 const formStyle = {
   width: 'calc(100% - 2em)',
@@ -24,7 +24,7 @@ export const SigninForm = ({
   submitting,
   submitForm,
   errorMessage,
-  clearForm
+  clearFormError
 }) => {
   return (
     <form style={formStyle} onSubmit={handleSubmit(submitForm)}>
@@ -50,7 +50,7 @@ export const SigninForm = ({
           disabled={pristine || submitting}
           label="Clear"
           onTouchTap={() => {
-            clearForm();
+            clearFormError();
             reset();
           }}
         />
@@ -71,4 +71,4 @@ export const formWithRouter = withRouter(
   )(SigninForm)
 );
 
-export default connect(mapStateToProps, { clearForm })(formWithRouter);
+export default connect(mapStateToProps, { clearFormError })(formWithRouter);

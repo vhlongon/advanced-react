@@ -9,7 +9,7 @@ import {
   signinFailure,
   signupSuccess,
   signupFailure,
-  clearForm
+  clearFormError
 } from '../actions/authenticate';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -42,8 +42,8 @@ export function* formSignin({ payload }) {
   } catch (error) {
     const errorMessage = yield 'Bad login info';
     yield put(signinFailure(errorMessage));
-    yield delay(3000);
-    yield put(clearForm());
+    yield delay(1500);
+    yield put(clearFormError());
   }
 }
 
@@ -57,8 +57,8 @@ export function* formSignup({ payload }) {
   } catch (error) {
     const { response: { data } } = yield error;
     yield put(signupFailure(data));
-    yield delay(3000);
-    yield put(clearForm());
+    yield delay(1500);
+    yield put(clearFormError());
   }
 }
 

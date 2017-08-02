@@ -1,5 +1,5 @@
 import {
-  CLEAR_FORM,
+  CLEAR_FORM_ERROR,
   SIGNIN_SUCCESS,
   SIGNUP_SUCCESS,
   SIGNOUT,
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
     case SIGNUP_FAILURE: {
       return { ...state, error: action.error };
     }
-    case CLEAR_FORM: {
+    case CLEAR_FORM_ERROR: {
       return { ...state, error: null };
     }
     default: {

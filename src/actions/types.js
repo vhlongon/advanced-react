@@ -6,4 +6,4 @@ export const SIGNIN_FAILURE = 'signin_failure';
 export const SIGNUP_SUBMIT = 'signup_submit';
 export const SIGNUP_SUCCESS = 'signup_success';
 export const SIGNUP_FAILURE = 'signup_failure';
-export const CLEAR_FORM = 'clear_form';
+export const CLEAR_FORM_ERROR = 'clear_form_error';

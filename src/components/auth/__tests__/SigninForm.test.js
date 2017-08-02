@@ -85,7 +85,7 @@ describe('Form', () => {
     it('call the reset function', () => {
       const wrapper = renderSignInFormWithThemeProvider({
         reset: mockReset,
-        clearForm: jest.fn()
+        clearFormError: jest.fn()
       });
       const clearButton = wrapper
         .find(RaisedButton)
@@ -94,18 +94,18 @@ describe('Form', () => {
       clearButton.props().onTouchTap();
       expect(mockReset).toHaveBeenCalled();
     });
-    it('dispatches clearForm', () => {
-      const mockClearForm = jest.fn();
+    it('dispatches clearFormError', () => {
+      const mockclearFormError = jest.fn();
       const wrapper = renderSignInFormWithThemeProvider({
         reset: mockReset,
-        clearForm: mockClearForm
+        clearFormError: mockclearFormError
       });
       const clearButton = wrapper
         .find(RaisedButton)
         .filterWhere(button => button.prop('label') === 'Clear');
 
       clearButton.props().onTouchTap();
-      expect(mockClearForm).toHaveBeenCalled();
+      expect(mockclearFormError).toHaveBeenCalled();
     });
   });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthButton, { Button } from '../AuthButton';
+import SignInOutButton, { Button } from '../SignInOutButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,7 +12,7 @@ const renderButtonWithThemeProvider = props =>
     </MuiThemeProvider>
   ).dive();
 
-describe('AuthButton', () => {
+describe('SignInOutButton', () => {
   const mockSignout = jest.fn(() => () => {});
   const mockHistoryPush = jest.fn(path => path);
 

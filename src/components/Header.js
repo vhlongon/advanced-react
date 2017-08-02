@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import StatusBar from './StatusBar';
 import { signout } from '../actions/authenticate';
-import AuthButton from './AuthButton';
+import SignInOutButton from './auth/SignInOutButton';
 import { paths } from './Routes';
 import { getIsAuthenticated } from '../selectors';
 
@@ -43,7 +43,7 @@ const BarItems = ({ isAuthenticated, signout }) => (
         </Link>
       </li>}
     <li className="header__item">
-      <AuthButton isAuthenticated={isAuthenticated} signout={signout} />
+      <SignInOutButton isAuthenticated={isAuthenticated} signout={signout} />
     </li>
   </ul>
 );
