@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import { Header } from '../Header';
-import SignInOutButton from '../SignInOutButton';
+import SignInOutButton from '../auth/SignInOutButton';
 import { Link } from 'react-router-dom';
 import { shallow } from 'enzyme';
 
