@@ -11,4 +11,4 @@ export const getSigninError = ({ auth }) =>
   plock(auth, { name: 'error', newName: 'errorMessage' });
 
 export const getUsersData = ({ users }) =>
-  plock(users, { name: 'data' }, { name: 'error' });
+  plock(users, { name: 'payload', newName: 'data' }, { name: 'error' });
