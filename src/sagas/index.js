@@ -1,5 +1,6 @@
 import { delay } from 'redux-saga';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { removeItemFromLocalStorage, setItemToLocalStorage } from './utils';
 import axios from 'axios';
 import { SIGNIN_SUBMIT, SIGNUP_SUBMIT, SIGNOUT } from '../actions/types';
 import history from '../history';
@@ -13,15 +14,6 @@ import {
 } from '../actions/authenticate';
 
 const ROOT_URL = 'http://localhost:3090';
-
-export const getItemFromLocalStorate = () =>
-  window.localStorage && localStorage.getItem('reactAuthToken');
-export const setItemToLocalStorage = token =>
-  window.localStorage && localStorage.setItem('reactAuthToken', token);
-export const removeItemFromLocalStorage = () =>
-  window.localStorage &&
-  getItemFromLocalStorate() &&
-  localStorage.removeItem('reactAuthToken');
 
 export function* formSignout() {
   yield call(history.push, paths.home);

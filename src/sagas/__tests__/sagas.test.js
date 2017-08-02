@@ -5,10 +5,9 @@ import watchAllSagas, {
   watchSignup,
   formSignout,
   formSignin,
-  formSignup,
-  setItemToLocalStorage,
-  removeItemFromLocalStorage
+  formSignup
 } from '../index';
+import { setItemToLocalStorage, removeItemFromLocalStorage } from '../utils';
 import { SIGNIN_SUBMIT, SIGNUP_SUBMIT, SIGNOUT } from '../../actions/types';
 import {
   signinSuccess,
