@@ -48,11 +48,7 @@ export const renderTileTitle = email => (
 
 export const renderTileSubTitle = id => (
   <span style={tileBlockStyle}>
-    <Person
-      style={{ paddingRight: '.5em' }}
-      color="white"
-      style={{ width: '18px' }}
-    />
+    <Person style={{ paddingRight: '.5em', width: '18px' }} color="white" />
     <span style={tileSpanStyle}>{id}</span>
   </span>
 );
@@ -63,23 +59,34 @@ export const renderActionIcon = () => (
 
 export const Users = props => {
   const { data, cols, cellHeight, error } = props;
+  const hasUsers = data && data.length;
   return (
     <div className="users" style={usersStyle}>
       {error
         ? <ErrorMessage text={error} />
-        : <GridList style={gridStyle} cols={cols} cellHeight={cellHeight}>
-            {data &&
-              data.map(({ email, id }, index) => (
-                <GridTile
-                  title={renderTileTitle(email)}
-                  subtitle={renderTileSubTitle(id)}
-                  key={index}
-                  titleBackground="rgba(255,255,255,0.15)"
-                  actionIcon={renderActionIcon()}
-                >
-                  <img style={tileImgStyle} />
-                </GridTile>
-              ))}
+        : <GridList
+            style={{
+              ...gridStyle,
+              justifyContent: `${hasUsers ? 'flex-start' : 'center'}`
+            }}
+            cols={cols}
+            cellHeight={cellHeight}
+          >
+            {hasUsers
+              ? data.map(({ email, id }, index) => (
+                  <GridTile
+                    title={renderTileTitle(email)}
+                    subtitle={renderTileSubTitle(id)}
+                    key={index}
+                    titleBackground="rgba(255,255,255,0.15)"
+                    actionIcon={renderActionIcon()}
+                  >
+                    <img style={tileImgStyle} alt="" />
+                  </GridTile>
+                ))
+              : <p style={{ textAlign: 'center', width: '100%' }}>
+                  No users registred yet...
+                </p>}
           </GridList>}
     </div>
   );
