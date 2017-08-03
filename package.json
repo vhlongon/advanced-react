@@ -17,7 +17,18 @@
     "redux": "^3.6.0",
     "redux-form": "^7.0.1",
     "redux-form-submit-saga": "^1.1.3",
-    "redux-saga": "^0.15.6"
+    "redux-saga": "^0.15.6",
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "express": "^4.15.3",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^4.11.0",
+    "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "enzyme": "^2.8.2",
@@ -26,7 +37,9 @@
     "react-test-renderer": "15.5.4"
   },
   "scripts": {
+    "serve": "nodemon --harmony server/index.js",
     "start": "react-scripts start",
+    "dev": "yarn run serve & yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

@@ -1,1 +1,1 @@
-module.exports = (req, res) => res.send({ message: 'super secret message' });
+module.exports = (req, res) => res.send({ message: 'I am running, homie!' });
