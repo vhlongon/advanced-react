@@ -71,9 +71,13 @@ describe('selectors', () => {
       it('returns the error and now data', () => {
         const error = 'error';
         const state = {
-          users: { data: [], error }
+          users: { payload: [], error, isLoading: false }
         };
-        expect(getUsersData(state)).toEqual({ data: [], error });
+        expect(getUsersData(state)).toEqual({
+          data: [],
+          error,
+          isLoading: false
+        });
       });
     });
   });

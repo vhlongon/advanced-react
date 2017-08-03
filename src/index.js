@@ -24,7 +24,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 const preloadedState = {
   auth: {
-    isAuthenticated: getItemFromLocalStorate ? true : null
+    isAuthenticated: getItemFromLocalStorate() ? true : null
   }
 };
 const store = createStore(

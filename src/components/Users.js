@@ -7,6 +7,7 @@ import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Mail from 'material-ui/svg-icons/communication/contact-mail';
 import Person from 'material-ui/svg-icons/social/person';
 import ErrorMessage from './ErrorMessage';
+import WithLoading from './WithLoading';
 import { fetchUsersRequest } from '../actions/fetchUsers';
 import { getUsersData } from '../selectors';
 
@@ -59,7 +60,7 @@ export const renderActionIcon = () => (
 
 export const Users = props => {
   const { data, cols, cellHeight, error } = props;
-  const hasUsers = data && data.length;
+  const hasMoreThanOneUser = data && data.length > 1;
   return (
     <div className="users" style={usersStyle}>
       {error
@@ -67,12 +68,12 @@ export const Users = props => {
         : <GridList
             style={{
               ...gridStyle,
-              justifyContent: `${hasUsers ? 'flex-start' : 'center'}`
+              justifyContent: `${hasMoreThanOneUser ? 'flex-start' : 'center'}`
             }}
             cols={cols}
             cellHeight={cellHeight}
           >
-            {hasUsers
+            {data
               ? data.map(({ email, id }, index) => (
                   <GridTile
                     title={renderTileTitle(email)}
@@ -97,15 +98,15 @@ const mapStateToProps = getUsersData;
 const enhance = compose(
   connect(mapStateToProps, { fetchUsersRequest }),
   lifecycle({
-    componentDidMount() {
+    componentWillMount() {
       this.props.fetchUsersRequest();
     }
-  })
+  }),
+  WithLoading(({ isLoading }) => isLoading)
 );
 
 Users.defaultProps = {
-  cols: 2,
-  data: []
+  cols: 2
 };
 
 export default enhance(Users);

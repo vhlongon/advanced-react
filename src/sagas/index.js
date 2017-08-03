@@ -70,7 +70,7 @@ export function* usersFetch() {
   };
   try {
     const result = yield call(axios.get, `${ROOT_URL}/users`, requestOptions);
-    const { data = [] } = result;
+    const { data } = result;
     yield put(fetchUsersSuccess(data));
   } catch (error) {
     const { response: { data } } = error;
