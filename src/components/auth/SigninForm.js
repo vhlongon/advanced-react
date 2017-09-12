@@ -1,8 +1,8 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
-import { connect } from 'react-redux';
 import TextField from './TextField';
 import ErrorMessage from '../ErrorMessage';
 import validate from './signinValidate';
@@ -14,7 +14,7 @@ const formStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '1em'
+  padding: '1em',
 };
 
 export const SigninForm = ({
@@ -24,7 +24,7 @@ export const SigninForm = ({
   submitting,
   submitForm,
   errorMessage,
-  clearFormError
+  clearFormError,
 }) => {
   return (
     <form style={formStyle} onSubmit={handleSubmit(submitForm)}>
@@ -61,14 +61,16 @@ export const SigninForm = ({
 
 const mapStateToProps = getSigninError;
 
-export const formWithRouter = withRouter(
+const enhance = compose(
   reduxForm(
     {
       form: 'signinForm',
-      validate
+      validate,
     },
-    mapStateToProps
-  )(SigninForm)
+    mapStateToProps,
+    { clearFormError }
+  ),
+  withRouter
 );
 
-export default connect(mapStateToProps, { clearFormError })(formWithRouter);
+export default enhance(SigninForm);

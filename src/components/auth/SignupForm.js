@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
-import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import TextField from './TextField';
 import ErrorMessage from '../ErrorMessage';
 import validate from './signupValidate';
@@ -14,7 +14,7 @@ const formStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '1em'
+  padding: '1em',
 };
 
 export const SignupForm = ({
@@ -24,7 +24,7 @@ export const SignupForm = ({
   submitting,
   submitForm,
   errorMessage,
-  clearFormError
+  clearFormError,
 }) => {
   return (
     <form style={formStyle} onSubmit={handleSubmit(submitForm)}>
@@ -67,14 +67,16 @@ export const SignupForm = ({
 
 const mapStateToProps = getSigninError;
 
-export const formWithRouter = withRouter(
+const enhance = compose(
+  withRouter,
   reduxForm(
     {
       form: 'SignupForm',
-      validate
+      validate,
     },
-    mapStateToProps
-  )(SignupForm)
+    mapStateToProps,
+    { clearFormError }
+  )
 );
 
-export default connect(mapStateToProps, { clearFormError })(formWithRouter);
+export default enhance(SignupForm);
